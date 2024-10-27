@@ -1,17 +1,18 @@
-clear all;
+function [h1_vals, h2_vals, t]=odp_skok_mod_lin(F1in_val, FD_val, kk, Tp)
+
+
 %Parametry modelu
 C1=0.35; C2=0.3; alpha1=20; alpha2=22; tau=150;
 
 
 % Punkt pracy
 FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
-Tp=1;
 
 
 % Wartość funkcji wejściowych
-F1in_vals(1:2000) = 80;
+F1in_vals(1:kk) = F1in_val;
 F1in = @(t) F1pp*(t<0)+F1in_vals(max(1, ceil(t / Tp)))*(t>=0);
-FD = @(t) FDpp*(t<0)+FDpp*(t>=0);
+FD = @(t) FDpp*(t<0)+FD_val*(t>=0);
 
 
 % Zlinearyzowane równania modelu
@@ -40,7 +41,7 @@ V=V0';
 t=0;
 
 
-for k=1:2000
+for k=1:kk
     t_k=k*Tp;
 
     tspan = [t_k-Tp t_k];
@@ -57,12 +58,4 @@ end
 h1_vals = (V(:,1) / C1).^(1/3);
 h2_vals = (V(:,2) / C2).^(1/3);
 
-
-% Wyświetlenie wyników
-figure;
-plot(t, h1_vals, '-', t, h2_vals, ':');
-legend('h1(t)', 'h2(t)');
-xlabel('Czas (t)');
-ylabel('Wysokości (h1, h2)');
-title('Rozwiązanie układu równań różniczkowych z opóźnieniem tau');
-grid on;
+end

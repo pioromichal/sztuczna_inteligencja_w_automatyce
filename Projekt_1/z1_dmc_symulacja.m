@@ -1,4 +1,5 @@
 clear all;
+addpath('DMC');
 %Parametry modelu
 C1=0.35; C2=0.3; alpha1=20; alpha2=22; tau=150;
 
@@ -7,11 +8,13 @@ C1=0.35; C2=0.3; alpha1=20; alpha2=22; tau=150;
 FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 
 
+% Czas próbkowania i ilość iteracji
+Tp=1; kk = 100;
+
+
 % Wartość funkcji wejściowej
-F1in_vals(1:2000) = 120;
-Tp=1;
+F1in_vals(1:kk) = 73;
 F1in = @(t) F1pp*(t<0)+F1in_vals(max(1, ceil(t / Tp)))*(t>=0);
-% F1in = @(t) F1pp*(t<0)+80*(t>=0);
 
 
 % Równania modelu
@@ -32,6 +35,18 @@ odeSystemNlin = @(t, V) [
     F2(h1(V(1))) - F3(h2(V(2)))        % dV2/dt
 ];
 
+h2zad_val = 20;
+h2zad = @(t) h2zad_val;
+
+% DMC parametry
+N=20; Nu=20; D=50; lambda=5;
+
+% DMC obliczenia offline
+
+ys=odp_jedn_fun(kk,Tp);
+
+[K1, ke, ku, Mp] = DMC_offline(ys,N,Nu,lambda,D);
+
 
 % Warunki początkowe symulacji
 V1_0 = C1 * (h1pp)^3;
@@ -39,15 +54,24 @@ V2_0 = C2 * (h2pp)^3;
 V0 = [V1_0; V2_0];
 V=V0';
 t=0;
+du_p(1:D-1)=0;
+u_p=F1pp;
 
-for k=1:2000
+for k=1:kk
     t_k=k*Tp;
 
-    h2k=h2(V0(1));
-    
-    e=h2zad(t_k)-h2k;
-    
+    h2k=h2(V0(2));
+
+    du=DMC_du(h2k,h2zad(t_k),ke,ku,du_p');
+    u=u_p+du;
     F1in_vals(k)=u;
+    u_p=u;
+
+    % Aktualizacja przeszłych przyrostów sterowania`
+    for n=D-1:-1:2
+        du_p(n) = du_p(n-1);
+    end
+    du_p(1) = du;
 
     tspan = [t_k-Tp t_k];
 
