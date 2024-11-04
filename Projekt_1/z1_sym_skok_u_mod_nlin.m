@@ -43,10 +43,10 @@ t=0;
 for k=1:2000
     t_k=k*Tp;
 
-    tspan = [t_k-Tp t_k];
-
     % Rozwiąż równania ODE
+    tspan = [t_k-Tp t_k];
     [tk, Vk] = ode45(odeSystemNlin, tspan, V0);
+    
     V0=Vk(end,:);
     V=[V;Vk(2:end,:)];
     t=[t;tk(2:end,:)];

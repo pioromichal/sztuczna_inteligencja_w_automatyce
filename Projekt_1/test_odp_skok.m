@@ -6,13 +6,13 @@ kk=tk/Tp;
 F1in=80;
 FD=14;
 
-% [h1_vals, h2_vals, t] = odp_skok_mod_lin(F1in, FD, kk, Tp);
-% 
-% d=(length(h2_vals)-1)/kk;
-% 
-% ys=h2_vals(d+1:d:length(h2_vals));
+[h1_vals, h2_vals, t] = odp_skok_mod_lin(F1in, FD, kk, Tp);
 
-ys=odp_jedn_fun(kk, Tp);
+d=(length(h2_vals)-1)/kk;
+
+ys=h2_vals(d+1:d:length(h2_vals));
+
+% ys=odp_jedn_fun(kk, Tp);
 
 
 % Wyświetlenie wyników
