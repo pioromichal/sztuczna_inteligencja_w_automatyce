@@ -1,14 +1,20 @@
-function [ys]=odp_jedn_fun(kk, Tp)
+function [ys]=odp_jedn_fun(kk, Tp, dF1in, F1pp, FDpp, h1pp, h2pp)
+    F1in=F1pp+dF1in;
+    h0=[h1pp h2pp];
+    tk=kk*Tp;
+    h2_vals=[];
+    h_k=h0;
+    for k=1:kk
+        % Wyznaczenie czasu dla chwili k do symulacji
+        t_k=k*Tp;
+        tspan_k=[t_k-Tp t_k];
+                
+        % Symulacja modelu liniowego dla chwili k
+        [~, hk_vals] = skok_mod_lin(tspan_k, h_k, tk, F1in, FDpp, F1pp, FDpp, h0);
+        h_k=hk_vals(end,:);
+        h2_vals=[h2_vals;h_k(2)];
+    end
 
-F1in=80; F1pp=73;
-FDpp=14; h2pp=15.6384;
-
-[~, h2_vals, ~] = odp_skok_mod_lin(F1in, FDpp, kk, Tp);
-
-d=(length(h2_vals)-1)/kk;
-h2_vals=h2_vals(d+1:d:length(h2_vals));
-
-dF1in=F1in-F1pp;
-
-ys=(h2_vals-h2pp)/dF1in;
+    % Normalizacja odpowiedzi skokowej
+    ys=(h2_vals-h2pp)/dF1in;
 end
