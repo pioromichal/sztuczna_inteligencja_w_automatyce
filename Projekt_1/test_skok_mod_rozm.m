@@ -5,23 +5,23 @@ FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 
 % Parametry skoku
 FD=FDpp;
-F1in=F1pp*1.2;
+F1in=F1pp*0.7;
 
 % Parametry symulacji
 tk=20000;
 tspan=[0 tk];
 h0=[h1pp h2pp];
 % numModels=3;
-% h_lin=[3.4225 2.8285; h1pp h2pp; 46.9225 38.7789];
+h_lin=[3.4225 2.8285; h1pp h2pp; 46.9225 38.7789];
 numModels=2;
 % h_lin=[3.4225 2.8285;46.9225 38.7789];
-h_lin=[h1pp h2pp; 46.9225 38.7789];
+% h_lin=[h1pp h2pp; 46.9225 38.7789];
 
 % % Symulacja skoku sterowania
 [t, h] = skok_mod_nlin(tspan, h0, tk, F1in, FD, F1pp, FDpp);
 % F1pp=[F1pp-50 F1pp F1pp+50];
 % FDpp=[FDpp FDpp FDpp];
-[trozm, hrozm] = skok_mod_rozm(tspan, h0, tk, F1in, FD, F1pp, FDpp, numModels, h_lin);
+[trozm, hrozm] = skok_mod_rozm(tspan, h0, tk, F1in, FD, F1pp, FDpp, h_lin,0);
 
 
 
