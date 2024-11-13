@@ -1,4 +1,5 @@
 clear all;
+addpath('funkcje_przynaleznosci');
 
 % Punkt pracy
 FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;

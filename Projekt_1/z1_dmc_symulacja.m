@@ -61,7 +61,7 @@ for dh2zad_per=[10, 20, 50]
     % plot(t, h_vals(:,2));
     plot(k_vals, h_vals(:,2));
     hold on;
-    plot(k_vals, h2zad_val * ones(kk), '--');
+    plot(k_vals, h2zad_val * ones(1,kk), '--');
     if dh2zad_sign < 0
         legend('h2(t)', 'h_{zad}', 'Location','northeast');
     else
