@@ -3,9 +3,12 @@ clear all;
 % Punkt pracy
 FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 
+% h1pp=46.9225;h2pp=38.7789; F1pp=F1pp+50;
+% h1pp=3.4225;h2pp=2.8285; F1pp=F1pp-50;
+
 % Parametry skoku
 FD=FDpp;
-F1in=80;
+F1in=F1pp;
 
 % Parametry symulacji
 tk=2000;
