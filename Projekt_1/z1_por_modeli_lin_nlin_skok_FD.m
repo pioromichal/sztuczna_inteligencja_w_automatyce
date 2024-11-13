@@ -20,8 +20,12 @@ for dz_per=[10, 20, 50]
     
     % Wyświetlenie wyników
     figure;
-    plot(t_nlin, h_nlin(:,2), '-', t_lin, h_lin(:,2), ':');
-    legend('Model nieliniowy', 'Model zlinearyzowany');
+    plot(t_nlin, h_nlin(:,2), '-', t_lin, h_lin(:,2), '-.');
+    if dz_sign < 0
+        legend('Model nieliniowy', 'Model zlinearyzowany', 'Location','northeast');
+    else
+        legend('Model nieliniowy', 'Model zlinearyzowany', 'Location','southeast');
+    end    
     xlabel('Czas (t)');
     ylabel('Wysokość h_2');
     title(['Symulacja modelu nieliniowego po skoku zakłócenia o ', num2str(dz_sign*dz_per), '%']);

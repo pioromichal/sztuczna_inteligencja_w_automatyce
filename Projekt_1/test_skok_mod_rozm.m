@@ -5,7 +5,7 @@ FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 
 % Parametry skoku
 FD=FDpp;
-F1in=F1pp+50;
+F1in=F1pp*1.2;
 
 % Parametry symulacji
 tk=20000;
@@ -30,11 +30,11 @@ h_lin=[h1pp h2pp; 46.9225 38.7789];
 figure;
 h1_vals=h(:,1);
 h2_vals=h(:,2);
-plot(t, h1_vals, '-', t, h2_vals, ':');
+plot(t, h1_vals, '-', t, h2_vals, '-');
 hold on;
 h1_vals=hrozm(:,1);
 h2_vals=hrozm(:,2);
-plot(trozm, h1_vals, '-', trozm, h2_vals, ':');
+plot(trozm, h1_vals, '-.', trozm, h2_vals, '-.');
 legend('h1(t)', 'h2(t)', 'h1r', 'h2r');
 xlabel('Czas (t)');
 ylabel('Wysokości (h1, h2)');

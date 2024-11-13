@@ -55,27 +55,35 @@ for dh2zad_per=[10, 20, 50]
     
     % Wyświetlenie wyników w jednym oknie
     figure;
-    
+    k_vals=0:Tp:(kk-1)*Tp;
     % Pierwszy wykres - Sygnał wyjściowy
-    % subplot(2, 1, 1);
+    subplot(2, 1, 1);
     % plot(t, h_vals(:,2));
-    plot(1:Tp:kk*Tp, h_vals(:,2));
+    plot(k_vals, h_vals(:,2));
     hold on;
-    plot(1:Tp:kk*Tp, h2zad_val * ones(length(kk+1)), '--');
-    legend('h2(t)', 'h_{zad}');
+    plot(k_vals, h2zad_val * ones(kk), '--');
+    if dh2zad_sign < 0
+        legend('h2(t)', 'h_{zad}', 'Location','northeast');
+    else
+        legend('h2(t)', 'h_{zad}', 'Location','southeast');
+    end
     xlabel('Czas (t)');
     ylabel('Wysokość h_2');
     title('Sygnał wyjściowy DMC jednowymiarowego');
     grid on; grid minor;
     
     % Drugi wykres - Sygnał sterujący
-    % subplot(2, 1, 2);
-    % stairs(1:Tp:Tp*kk, F1in_vals);
-    % legend('F1in(t)');
-    % xlabel('Czas (t)');
-    % ylabel('Sygnał sterujący');
-    % title('Sygnał sterujący DMC jednowymiarowego');
-    % grid on; grid minor;
+    subplot(2, 1, 2);
+    stairs(k_vals, F1in_vals);
+    if dh2zad_sign < 0
+        legend('F1in(t)', 'Location','northeast');
+    else
+        legend('F1in(t)', 'Location','southeast');
+    end
+    xlabel('Czas (t)');
+    ylabel('Sygnał sterujący');
+    title('Sygnał sterujący DMC jednowymiarowego');
+    grid on; grid minor;
     
     file_name = sprintf('wykresy/Zad1/symulacja_DMC_j_zmiana_h2_zad_o_%+d_procent.pdf', dh2zad_sign * dh2zad_per);
     

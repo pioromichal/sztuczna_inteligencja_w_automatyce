@@ -71,9 +71,14 @@ function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, F1pp, FDpp, n
     dV1dt=@(t, V, mi) F1(t) + FD(t) - F2(h1(V(1)), mi);
     dv2dt=@(t, V, mi) F2(h1(V(1)), mi) - F3(h2(V(2)), mi);
 
+    % odeSystemRozm = @(t, V) [
+    %     dV1dt(t, V, fun_przyn_troj(h2(V(2)),h2_min,h2_max,numModels));     % dV1/dt
+    %     dv2dt(t, V, fun_przyn_troj(h2(V(2)),h2_min,h2_max,numModels))    % dV2/dt
+    % ];
+
     odeSystemRozm = @(t, V) [
-        dV1dt(t, V, fun_przyn_troj(h2(V(2)),h2_min,h2_max,numModels));     % dV1/dt
-        dv2dt(t, V, fun_przyn_troj(h2(V(2)),h2_min,h2_max,numModels))    % dV2/dt
+        dV1dt(t, V, fun_przyn_trap(h2(V(2)),h_lin(:,2), 0));     % dV1/dt
+        dv2dt(t, V, fun_przyn_trap(h2(V(2)),h_lin(:,2), 0));     % dV2/dt
     ];
 
     % Zmienne stanu w punkcie począkowym
