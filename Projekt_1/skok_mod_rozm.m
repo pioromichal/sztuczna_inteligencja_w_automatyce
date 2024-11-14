@@ -3,11 +3,11 @@ function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, F1pp, FDpp, h
     C1 = 0.35; C2 = 0.3; alpha1 = 20; alpha2 = 22; tau = 150;
     
     % Definicja funkcji sterującej
-    F1in = @(t) F1pp * (t < 0) + F1in_vals(max(1, floor(t / Tp)+1)) * (t >= 0);
+    F1in = @(t) F1pp * (t <= 0) + F1in_vals(max(1, floor(t / Tp)+1)) * (t > 0);
 
     % Zlinearyzowane równania modelu
     F1 = @(t) F1in(t - tau);
-    FD = @(t) FDpp * (t < 0) + FD_vals(max(1, ceil(t / Tp))) * (t >= 0);
+    FD = @(t) FDpp * (t <= 0) + FD_vals(max(1, ceil(t / Tp))) * (t > 0);
     
     % Funkcje h1 i h2 wyrażone przez V1 i V2
     h1 = @(V1) (V1 / C1) .^ (1/3);
@@ -27,12 +27,12 @@ function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, F1pp, FDpp, h
 
     % Równania różniczkowe równania
     dV1dt=@(t, V, mi) F1(t) + FD(t) - F2(h1(V(1)), mi);
-    dv2dt=@(t, V, mi) F2(h1(V(1)), mi) - F3(h2(V(2)), mi);
+    dV2dt=@(t, V, mi) F2(h1(V(1)), mi) - F3(h2(V(2)), mi);
 
 
     odeSystemRozm = @(t, V) [
         dV1dt(t, V, fun_przyn_trap(h2(V(2)),h_lin(:,2), reg_switch_zak));     % dV1/dt
-        dv2dt(t, V, fun_przyn_trap(h2(V(2)),h_lin(:,2), reg_switch_zak));     % dV2/dt
+        dV2dt(t, V, fun_przyn_trap(h2(V(2)),h_lin(:,2), reg_switch_zak));     % dV2/dt
     ];
 
     % Zmienne stanu w punkcie począkowym
