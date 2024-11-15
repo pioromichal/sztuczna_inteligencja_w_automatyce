@@ -1,4 +1,4 @@
-function [K1,ke,ku,Mp]=DMC_offline(ys,N,Nu,lambda,D)
+function [ke,ku]=DMC_offline(ys,N,Nu,lambda,D)
 
 M = zeros(N,Nu);
 for col=1:Nu

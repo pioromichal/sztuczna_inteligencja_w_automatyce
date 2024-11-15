@@ -12,7 +12,7 @@ N=70; Nu=70; D=140; lambda=10;
 
 % DMC obliczenia offline
 ys=odp_jedn_fun(D, Tp, dF1in, F1pp, FDpp, h1pp, h2pp);
-[K1, ke, ku, Mp] = DMC_offline(ys,N,Nu,lambda,D);
+[ke, ku] = DMC_offline(ys,N,Nu,lambda,D);
 
 
 
@@ -89,6 +89,6 @@ for dh2zad_per=[10, 20, 50]
     
     % Export wykresu do pliku .pdf
     exportgraphics(gcf, file_name, 'ContentType', 'vector');
-    close all;
+    % close all;
 end
 end
