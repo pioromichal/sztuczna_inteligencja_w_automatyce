@@ -15,8 +15,8 @@ for dz_per=[10, 20, 50]
     F1in=F1pp;
 
     % Symulacja modeli obiektu dla skoku sterowania
-    [t_nlin, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD, F1pp, FDpp);
-    [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, F1pp, FDpp, h0);
+    [t_nlin, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD);
+    [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h0);
     
     % Wyświetlenie wyników
     figure;

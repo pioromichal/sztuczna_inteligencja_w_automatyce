@@ -1,6 +1,9 @@
-function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, F1pp, FDpp, h_lin, reg_switch_zak)
+function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, h_lin, reg_switch_zak)
     % Parametry modelu
     C1 = 0.35; C2 = 0.3; alpha1 = 20; alpha2 = 22; tau = 150;
+
+    % Punkt pracy
+    FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
     
     % Definicja funkcji sterującej
     F1in = @(t) F1pp * (t <= 0) + F1in_vals(max(1, floor(t / Tp)+1)) * (t > 0);

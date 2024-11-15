@@ -17,9 +17,9 @@ for du_per=[10, 20, 50]
     F1in=F1pp*(1+du_sign*du_per/100);
 
     % Symulacja modeli obiektu dla skoku sterowania
-    [t_nlin, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD, F1pp, FDpp);
-    [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, F1pp, FDpp, h0);
-    [t_rozm2, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, F1pp, FDpp, h_lin, 0);
+    [t_nlin, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD);
+    [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h0);
+    [t_rozm2, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h_lin, 0);
 
     
     % Wyświetlenie wyników

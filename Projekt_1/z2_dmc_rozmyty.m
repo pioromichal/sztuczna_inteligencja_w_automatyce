@@ -43,7 +43,7 @@ for dh2zad_sign=[-1 , 1]
 
             if k<kk
                 % Rozwiąż równania ODE
-                [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, F1in_vals, FD_vals, F1pp, FDpp);
+                [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, F1in_vals, FD_vals);
                 % h_vals=[h_vals;hk_vals(2:end,:)];
                 h_vals=[h_vals;hk_vals(end,:)];
                 t=[t;tk(2:end,:)];

@@ -11,7 +11,7 @@ tk=2500; Tp=10; kk=round(tk/Tp);
 N=70; Nu=70; D=140; lambda=10;
 
 % DMC obliczenia offline
-ys=odp_jedn_fun(D, Tp, dF1in, F1pp, FDpp, h1pp, h2pp);
+ys=odp_jedn_fun(D, Tp, dF1in);
 [ke, ku] = DMC_offline(ys,N,Nu,lambda,D);
 
 
@@ -46,7 +46,7 @@ for dh2zad_per=[10, 20, 50]
         
         if k<kk
             % Rozwiąż równania ODE
-            [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, F1in_vals, FD_vals, F1pp, FDpp);
+            [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, F1in_vals, FD_vals);
             % h_vals=[h_vals;hk_vals(2:end,:)];
             h_vals=[h_vals;hk_vals(end,:)];
             t=[t;tk(2:end,:)];
