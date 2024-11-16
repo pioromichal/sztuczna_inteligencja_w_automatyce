@@ -1,4 +1,4 @@
-function [ys]=odp_jedn_fun(kk, Tp, dF1in)
+function [ys]=odp_jedn_fun(kk, Tp, dF1in, h2_lin)
 
     % Punkt pracy
     FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
@@ -14,7 +14,7 @@ function [ys]=odp_jedn_fun(kk, Tp, dF1in)
         tspan_k=[t_k-Tp t_k];
                 
         % Symulacja modelu liniowego dla chwili k
-        [~, hk_vals] = skok_mod_lin(tspan_k, h_k, tk, F1in, FDpp, h0);
+        [~, hk_vals] = skok_mod_lin(tspan_k, h_k, tk, F1in, FDpp, h2_lin);
         h_k=hk_vals(end,:);
         h2_vals=[h2_vals;h_k(2)];
     end

@@ -3,6 +3,7 @@ addpath('DMC');
 
 % Punkt pracy
 FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225; dF1in=10;
+h2_lin = h2pp;
 
 % Parametry symulacji
 tk=2500; Tp=10; kk=round(tk/Tp);
@@ -11,7 +12,7 @@ tk=2500; Tp=10; kk=round(tk/Tp);
 N=70; Nu=70; D=140; lambda=10;
 
 % DMC obliczenia offline
-ys=odp_jedn_fun(D, Tp, dF1in);
+ys=odp_jedn_fun(D, Tp, dF1in, h2_lin);
 [ke, ku] = DMC_offline(ys,N,Nu,lambda,D);
 
 
@@ -89,6 +90,6 @@ for dh2zad_per=[10, 20, 50]
     
     % Export wykresu do pliku .pdf
     exportgraphics(gcf, file_name, 'ContentType', 'vector');
-    % close all;
+    close all;
 end
 end

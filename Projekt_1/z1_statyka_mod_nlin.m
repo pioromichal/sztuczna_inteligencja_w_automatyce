@@ -21,14 +21,12 @@ for F1in= 0:1:200
 
 end
 
-
-
 % Wyświetlenie wyników
 figure;
 plot(0:1:200, hs);
 xlabel('F_{1in}');
 ylabel('Wysokość h_2');
-title('statyka');
+% title('');
 grid on; grid minor;
 
 % Generowanie nazwy pliku

@@ -11,9 +11,10 @@ F1in=80;
 tk=2000;
 tspan=[0 tk];
 h0=[h1pp h2pp];
+h2_lin = h2pp;
 
 % Symulacja skoku sterowania
-[t, h] = skok_mod_lin(tspan, h0, tk, F1in, FD, h0);
+[t, h] = skok_mod_lin(tspan, h0, tk, F1in, FD, h2_lin);
 
 h1_vals=h(:,1);
 h2_vals=h(:,2);
