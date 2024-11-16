@@ -82,7 +82,7 @@ for dh2zad_sign=[-1 , 1]
         title('Sygnał sterujący DMC jednowymiarowego');
         grid on; grid minor;
 
-        file_name = sprintf('wykresy/Zad1/symulacja_DMC_j_zmiana_h2_zad_o_%+d_procent.pdf', dh2zad_sign * dh2zad_per);
+        file_name = sprintf('wykresy/Zad2/symulacja_DMC_j_zmiana_h2_zad_o_%+d_procent.pdf', dh2zad_sign * dh2zad_per);
 
         % Export wykresu do pliku .pdf
         exportgraphics(gcf, file_name, 'ContentType', 'vector');
