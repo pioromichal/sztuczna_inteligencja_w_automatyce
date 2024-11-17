@@ -16,8 +16,8 @@ function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, h2_lin_rozm, 
     FD = @(t) FDpp * (t <= 0) + FD_vals(max(1, ceil(t / Tp))) * (t > 0);
     
     % Funkcje h1 i h2 wyrażone przez V1 i V2
-    h1 = @(V1) (V1 / C1) .^ (1/3);
-    h2 = @(V2) (V2 / C2) .^ (1/3);
+    h1 = @(V1) (max(V1 / C1, 0)) .^ (1/3);
+    h2 = @(V2) (max(V2 / C2, 0)) .^ (1/3);
 
     % Zlinearyzowane równania modelu
     F2_lin = @(h1, h_l) alpha1 * sqrt(h_l) + (alpha1 / (2 * sqrt(h_l))) * (h1 - h_l);
