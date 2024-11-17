@@ -35,6 +35,6 @@ function plot_membership_functions(z_vals, z_switch)
 end
 
 % Przykładowe użycie
-z_vals = [8; 15.5; 22];  % Wartości centralne dla modeli lokalnych
+z_vals = [5;15;25];  % Wartości centralne dla modeli lokalnych
 z_switch = 5;              % Szerokość płaskiego fragmentu trapezu
 plot_membership_functions(z_vals, z_switch);

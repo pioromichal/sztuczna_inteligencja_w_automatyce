@@ -34,17 +34,23 @@ for dh2zad_per=[10, 20, 50]
         % Wyznaczenie czasu dla chwili k do symulacji
         t_k=k*Tp;
         tspan_k=[t_k-Tp t_k];
-    
+
         % Wyznaczenie nowej wartości sterowania regulatora DMC
         hk=h_vals(end,:);
         du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
+
+        % Ograniczenia wartości sygnału sterującego
+        if u_p+du < 0
+            du = 0-u_p;
+        end
+
         u=u_p+du;
         F1in_vals(k)=u;
         u_p=u;
-    
+
         % Aktualizacja wektora przyrostów przeszłych
         du_p=[du, du_p(1:end-1)];
-        
+
         if k<kk
             % Rozwiąż równania ODE
             [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, F1in_vals, FD_vals);
@@ -53,7 +59,7 @@ for dh2zad_per=[10, 20, 50]
             t=[t;tk(2:end,:)];
         end
     end
-    
+
     % Wyświetlenie wyników w jednym oknie
     figure;
     k_vals=0:Tp:(kk-1)*Tp;
@@ -72,7 +78,7 @@ for dh2zad_per=[10, 20, 50]
     ylabel('Wysokość h_2');
     title('Sygnał wyjściowy DMC jednowymiarowego');
     grid on; grid minor;
-    
+
     % Drugi wykres - Sygnał sterujący
     subplot(2, 1, 2);
     stairs(k_vals, F1in_vals);
@@ -85,9 +91,9 @@ for dh2zad_per=[10, 20, 50]
     ylabel('Sygnał sterujący');
     title('Sygnał sterujący DMC jednowymiarowego');
     grid on; grid minor;
-    
+
     file_name = sprintf('wykresy/Zad1/symulacja_DMC_j_zmiana_h2_zad_o_%+d_procent.pdf', dh2zad_sign * dh2zad_per);
-    
+
     % Export wykresu do pliku .pdf
     exportgraphics(gcf, file_name, 'ContentType', 'vector');
     close all;
