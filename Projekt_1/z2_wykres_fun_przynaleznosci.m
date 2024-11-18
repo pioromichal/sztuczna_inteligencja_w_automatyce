@@ -2,8 +2,6 @@ addpath('funkcje_przynaleznosci\')
 % Główna funkcja do wyświetlania wykresów przynależności
 function plot_membership_functions(z_vals, z_switch)
     numModels = length(z_vals);            % Liczba modeli lokalnych
-    % z_min = min(z_vals) - 1;               % Zakres minimalny wykresu
-    % z_max = max(z_vals) + 1;               % Zakres maksymalny wykresu
     z_min = 0;               % Zakres minimalny wykresu
     z_max = 30;               % Zakres maksymalny wykresu
     z_range = linspace(z_min, z_max, 1000); % Przedział wartości 'z' dla wykresu

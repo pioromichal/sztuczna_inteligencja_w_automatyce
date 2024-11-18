@@ -10,7 +10,9 @@ h0=[h1pp h2pp];
 
 hs = [];
 
-for F1in= 0:1:200
+F1in_vals= 0:1:150;
+
+for F1in= F1in_vals
     % Parametry skoku
     FD=FDpp;
 
@@ -23,7 +25,7 @@ end
 
 % Wyświetlenie wyników
 figure;
-plot(0:1:200, hs);
+plot(F1in_vals, hs);
 xlabel('F_{1in}');
 ylabel('Wysokość h_2');
 % title('');
