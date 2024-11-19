@@ -1,10 +1,16 @@
 function [t, h] = skok_mod_lin(tspan, h0, Tp, ...
-    F1in_vals, FD_vals, h2_lin)
+    F1in_vals, FD_vals, h2_lin, varargin)
+
 % Parametry modelu
 C1 = 0.35; C2 = 0.3; alpha1 = 20; alpha2 = 22; tau = 150;
 
 % Punkt pracy
-FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
+FDpp=14; F1pp=73; h2pp=15.6384; h1pp=h2pp*(alpha2/alpha1)^2; % h1pp = 18.9225;
+
+% Ustawienie zadaneo F1pp jeśli podano
+if nargin >= 7
+    F1pp = varargin{1};
+end
 
 % Punkt linearyzacji
 h1_lin = h2_lin*(alpha2/alpha1)^2;

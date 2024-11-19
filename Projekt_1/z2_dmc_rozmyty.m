@@ -8,8 +8,17 @@ FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 % Parametry symulacji
 tk=2500; Tp=10; kk=round(tk/Tp); D = 140;
 
-punkty_rozmycia = [5 15.6384 25];
+% punkty_rozmycia = [5 15.6384 25];
+punkty_rozmycia = h2pp*[0.5 1 1.5];
 lambdy = [1, 1, 1];
+
+mi=[];
+for z=0:0.1:25
+    mi=[mi;fun_przyn_trap(z,punkty_rozmycia, 5)];
+end
+figure;
+plot(0:0.1:25, mi());
+
 
 [ke_r, ku_r] = z2_DMC_rozmyty_offline(punkty_rozmycia, lambdy, Tp);
 

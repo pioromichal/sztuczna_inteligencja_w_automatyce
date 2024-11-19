@@ -12,13 +12,16 @@ tk=2000;
 tspan=[0 tk];
 h0=[h1pp h2pp];
 h2_lin = h2pp;
-h2_lin_rozm=[10; h2pp; 20];
+h2_lin_rozm_2=h2pp*[0.5; 1.5];
+h2_lin_rozm_3=h2pp*[0.5;1;1.5];
+h2_lin_rozm_4=h2pp*[0.5;0.83;1.16;1.5];
+h2_lin_rozm_5=h2pp*[0.5;0.75;1;1.25;1.5];
 
 % % Symulacja skoku sterowania
 [t, h] = skok_mod_nlin(tspan, h0, tk, F1in, FD);
 % F1pp=[F1pp-50 F1pp F1pp+50];
 % FDpp=[FDpp FDpp FDpp];
-[trozm, hrozm] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm,2);
+[trozm, hrozm] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm_2,2);
 
 
 
