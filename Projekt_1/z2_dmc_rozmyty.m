@@ -8,10 +8,10 @@ FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 % Parametry symulacji
 tk=2500; Tp=10; kk=round(tk/Tp); D = 140;
 
-liczba_modeli = 3; % 2, 3, 4, 5
-parametry_rozmycia = [5; 15.6384; 25];
+punkty_rozmycia = [5 15.6384 25];
+lambdy = [1, 1, 1];
 
-[ke_r, ku_r] = z2_DMC_rozmyty_offline(parametry_rozmycia, Tp);
+[ke_r, ku_r] = z2_DMC_rozmyty_offline(punkty_rozmycia, lambdy, Tp);
 
 for dh2zad_sign=[-1 , 1]
     for dh2zad_per=[10, 20, 50]
@@ -34,7 +34,7 @@ for dh2zad_sign=[-1 , 1]
             % Wyznaczenie nowej wartości sterowania regulatora DMC
             hk=h_vals(end,:);
             % du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
-            du = z2_DMC_rozmyty_online(parametry_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p');
+            du = z2_DMC_rozmyty_online(punkty_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p');
 
             % Ograniczenia wartości sygnału sterującego
             if u_p+du < 0
