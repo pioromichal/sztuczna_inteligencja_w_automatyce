@@ -28,7 +28,7 @@ ylabel('Wysokość h_2');
 title('Symulacja modelu nieliniowego dla skoków zakłócenia w dół');
 
 for dz_sign = [-1, 1]
-    for dz_per = [10, 20, 30, 40, 100]
+    for dz_per = [10, 20, 30, 40, 50]
         % Parametry skoku
         FD = FDpp * (1 + dz_sign * dz_per / 100);
         F1in = F1pp;

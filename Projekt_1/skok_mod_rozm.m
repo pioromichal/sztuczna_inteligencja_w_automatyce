@@ -1,4 +1,5 @@
-function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, h2_lin_rozm, reg_switch_zak)
+function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, ...
+    h2_lin_rozm, reg_switch_zak)
     % Parametry modelu
     C1 = 0.35; C2 = 0.3; alpha1 = 20; alpha2 = 22; tau = 150;
 
@@ -24,8 +25,10 @@ function [t, h] = skok_mod_rozm(tspan, h0, Tp, F1in_vals, FD_vals, h2_lin_rozm, 
     F3_lin = @(h2, h_l) alpha2 * sqrt(h_l) + (alpha2 / (2 * sqrt(h_l))) * (h2 - h_l);
     
     % Rozmyte równania modelu
-    F2 = @(h1, mi) sum(mi .* arrayfun(@(i) F2_lin(h1, h1_lin_rozm(i)), 1:size(h1_lin_rozm, 1)));
-    F3 = @(h2, mi) sum(mi .* arrayfun(@(i) F3_lin(h2, h2_lin_rozm(i)), 1:size(h2_lin_rozm, 1)));
+    % F2 = @(h1, mi) sum(mi .* arrayfun(@(i) F2_lin(h1, h1_lin_rozm(i)), 1:size(h1_lin_rozm, 1)));
+    % F3 = @(h2, mi) sum(mi .* arrayfun(@(i) F3_lin(h2, h2_lin_rozm(i)), 1:size(h2_lin_rozm, 1)));
+    F2 = @(h1, mi) mi * arrayfun(@(i) F2_lin(h1, h1_lin_rozm(i)), 1:size(h1_lin_rozm, 1))';
+    F3 = @(h2, mi) mi * arrayfun(@(i) F3_lin(h2, h2_lin_rozm(i)), 1:size(h2_lin_rozm, 1))';
     
 
     % Równania różniczkowe równania

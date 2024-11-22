@@ -26,12 +26,12 @@ for du_per=[10, 20, 30, 40, 50]
     [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h2_lin);
     
     % Wyświetlenie wyników
-    figure('Units', 'centimeters', 'Position', [1, 1, 8, 6]);
+    figure('Units', 'centimeters', 'Position', [1, 1, 7, 6]);
     plot(t_nlin, h_nlin(:,2), '-', t_lin, h_lin(:,2), '-.');
     if du_sign < 0
-        legend('Model nieliniowy', 'Model zlinearyzowany', 'Location','northeast');
+        legend('Nieliniowy', 'Zlinearyzowany', 'Location','northeast');
     else
-        legend('Model nieliniowy', 'Model zlinearyzowany', 'Location','southeast');
+        legend('Nieliniowy', 'Zlinearyzowany', 'Location','southeast');
     end
     xlabel('Czas (t)');
     ylabel('h_2');

@@ -10,7 +10,7 @@ h0=[h1pp h2pp];
 h2_lin = h2pp;
 
 for dz_sign=[-1 , 1]
-for dz_per=[10, 20, 50]
+for dz_per=[10, 20, 30,40, 50]
     % Parametry skoku
     FD=FDpp*(1+dz_sign*dz_per/100);
     F1in=F1pp;
@@ -20,16 +20,16 @@ for dz_per=[10, 20, 50]
     [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h2_lin);
     
     % Wyświetlenie wyników
-    figure;
+    figure('Units', 'centimeters', 'Position', [1, 1, 7, 6]);
     plot(t_nlin, h_nlin(:,2), '-', t_lin, h_lin(:,2), '-.');
     if dz_sign < 0
-        legend('Model nieliniowy', 'Model zlinearyzowany', 'Location','northeast');
+        legend('Nieliniowy', 'Zlinearyzowany', 'Location','northeast');
     else
-        legend('Model nieliniowy', 'Model zlinearyzowany', 'Location','southeast');
+        legend('Nieliniowy', 'Zlinearyzowany', 'Location','southeast');
     end
     xlabel('Czas (t)');
     ylabel('Wysokość h_2');
-    title(['Symulacja modelu nieliniowego po skoku zakłócenia o ', num2str(dz_sign*dz_per), '%']);
+    title(['Skoku zakłócenia o ', num2str(dz_sign*dz_per), '%']);
     grid on; grid minor;
 
     % Generowanie nazwy pliku

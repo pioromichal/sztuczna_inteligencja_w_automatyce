@@ -15,12 +15,13 @@ N=70; Nu=30; D=160; lambda=15;
 ys=odp_jedn_fun(D, Tp, dF1in, h2_lin);
 [ke, ku] = DMC_offline(ys,N,Nu,lambda,D);
 
+h2zad_val=h2pp;
 
 
-for dh2zad_sign=[-1 , 1]
-for dh2zad_per=[10, 20, 30, 40, 50]
+for FD_sign=[-1 , 1]
+for FD_per=[10, 20, 30, 40, 50]
+    FD=FDpp*(1+FD_sign*FD_per);
     % % Wartość zadana
-    h2zad_val=h2pp*(1+dh2zad_sign*dh2zad_per/100);
     [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val);
 
     % Wyświetlenie wyników w jednym oknie
@@ -32,7 +33,7 @@ for dh2zad_per=[10, 20, 30, 40, 50]
     plot(k_vals, h_vals(:,2));
     hold on;
     plot(k_vals, h2zad_val * ones(1,kk), '--');
-    if dh2zad_sign < 0
+    if FD_sign < 0
         legend('h2(t)', 'h_{zad}', 'Location','northeast');
     else
         legend('h2(t)', 'h_{zad}', 'Location','southeast');
@@ -45,7 +46,7 @@ for dh2zad_per=[10, 20, 30, 40, 50]
     % Drugi wykres - Sygnał sterujący
     subplot(2, 1, 2);
     stairs(k_vals, F1in_vals);
-    if dh2zad_sign < 0
+    if FD_sign < 0
         legend('F1in(t)', 'Location','northeast');
     else
         legend('F1in(t)', 'Location','southeast');
@@ -55,7 +56,7 @@ for dh2zad_per=[10, 20, 30, 40, 50]
     title('Sygnał sterujący DMC jednowymiarowego');
     grid on; grid minor;
 
-    file_name = sprintf('wykresy/Zad1/symulacja_DMC_j_zmiana_h2_zad_o_%+d_procent.pdf', dh2zad_sign * dh2zad_per);
+    file_name = sprintf('wykresy/Zad1/symulacja_DMC_j_zmiana_FD_o_%+d_procent.pdf', FD_sign * FD_per);
 
     % Export wykresu do pliku .pdf
     exportgraphics(gcf, file_name, 'ContentType', 'vector');

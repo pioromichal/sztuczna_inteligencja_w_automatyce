@@ -9,10 +9,16 @@ tk=2000;
 tspan=[0 tk];
 h0=[h1pp h2pp];
 h2_lin = h2pp;
-h2_lin_rozm=[h2pp; 38.7789];
+h2_lin_rozm=[10; h2pp; 20];
+h2_lin_rozm_2=h2pp*[1; 1.5];
+h2_lin_rozm_3=h2pp*[0.5;1;1.5];
+h2_lin_rozm_4=h2pp*[0.75;1;1.25;1.5];
+h2_lin_rozm_5=h2pp*[0.5;0.75;1;1.25;1.5];
+
+h_switch=0;
 
 for dz_sign=[-1 , 1]
-for dz_per=[10, 20, 50]
+for dz_per=[10, 20, 30, 40, 50]
     % Parametry skoku
     FD=FDpp*(1+dz_sign*dz_per/100);
     F1in=F1pp;
@@ -20,14 +26,23 @@ for dz_per=[10, 20, 50]
     % Symulacja modeli obiektu dla skoku sterowania
     [t_nlin, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD);
     [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h2_lin);
-    [t_rozm2, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, 0);
+    [t_rozm2, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
+    [t_rozm3, h_rozm3] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
+    [t_rozm4, h_rozm4] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
+    [t_rozm5, h_rozm5] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
+
 
     % Wyświetlenie wyników
     figure;
-    plot(t_nlin, h_nlin(:,2), '-', t_lin, h_lin(:,2), '-.');
+    plot(t_lin, h_lin(:,2), '-', t_nlin, h_nlin(:,2), '-');
     hold on;
-    plot(t_rozm2, h_rozm2(:,2), '--');
-    legend('Model nieliniowy', 'Model zlinearyzowany', 'Model rozmyty 2');
+    plot(t_rozm2, h_rozm2(:,2), '-.');    
+    plot(t_rozm3, h_rozm3(:,2), '--');    
+    plot(t_rozm4, h_rozm4(:,2), ':');    
+    plot(t_rozm5, h_rozm5(:,2), '--');   
+    legend('Model nieliniowy', 'Model zlinearyzowany', ...
+        'Model rozmyty 2', 'Model rozmyty 3', ...
+        'Model rozmyty 4', 'Model rozmyty 5');
     if dz_sign < 0
         legend('Location','northeast');
     else
