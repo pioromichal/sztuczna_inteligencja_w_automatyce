@@ -2,7 +2,7 @@ function [du] = z2_DMC_rozmyty_online(parametry_rozmycia, y,yzad,ke_r,ku_r,du_p)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
-mi = fun_przyn_trap(y, parametry_rozmycia, 5);
+mi = fun_przyn_trap(y, parametry_rozmycia, 2);
 
 du = 0;
 ilosc_modeli = length(ke_r);
