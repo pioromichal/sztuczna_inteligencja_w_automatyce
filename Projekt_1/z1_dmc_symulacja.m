@@ -9,7 +9,7 @@ h2_lin = h2pp;
 tk=2500; Tp=10; kk=round(tk/Tp);
 
 % DMC parametry
-N=70; Nu=30; D=160; lambda=15;
+N=70; Nu=30; D=200; lambda=15;
 
 % DMC obliczenia offline
 ys=odp_jedn_fun(D, Tp, dF1in, h2_lin);
@@ -21,7 +21,7 @@ for dh2zad_sign=[-1 , 1]
 for dh2zad_per=[10, 20, 30, 40, 50]
     % % Wartość zadana
     h2zad_val=h2pp*(1+dh2zad_sign*dh2zad_per/100);
-    [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val);
+    [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val, FDpp);
 
     % Wyświetlenie wyników w jednym oknie
     figure;

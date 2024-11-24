@@ -17,7 +17,7 @@ function [t, h] = skok_mod_lin(tspan, h0, Tp, ...
     
     % Definicja funkcji sterującej
     F1in = @(t) F1pp * (t <= 0) + ...
-        F1in_vals(max(1, ceil(t / Tp))) * (t > 0);
+        F1in_vals(max(1, floor(t / Tp)+1)) * (t > 0);
     
     % Zlinearyzowane równania modelu
     F1 = @(t) F1in(t - tau);

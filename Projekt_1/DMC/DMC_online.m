@@ -1,4 +1,4 @@
-function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val)
+function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val, FD)
     h2zad = @(t) h2zad_val;
     % Punkt pracy
     FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
@@ -8,7 +8,7 @@ function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val)
     du_p(1:D-1)=0;
     u_p=F1pp;
     F1in_vals(1:kk) = F1pp;
-    FD_vals(1:kk) = FDpp;
+    FD_vals(1:kk) = FD;
     for k=1:kk
         % Wyznaczenie czasu dla chwili k do symulacji
         t_k=k*Tp;

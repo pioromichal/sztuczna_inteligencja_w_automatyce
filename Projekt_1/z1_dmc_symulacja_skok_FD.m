@@ -20,9 +20,9 @@ h2zad_val=h2pp;
 
 for FD_sign=[-1 , 1]
 for FD_per=[10, 20, 30, 40, 50]
-    FD=FDpp*(1+FD_sign*FD_per);
+    FD=FDpp*(1+FD_sign*FD_per/100);
     % % Wartość zadana
-    [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val);
+    [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, h2zad_val, FD);
 
     % Wyświetlenie wyników w jednym oknie
     figure;
@@ -34,9 +34,9 @@ for FD_per=[10, 20, 30, 40, 50]
     hold on;
     plot(k_vals, h2zad_val * ones(1,kk), '--');
     if FD_sign < 0
-        legend('h2(t)', 'h_{zad}', 'Location','northeast');
-    else
         legend('h2(t)', 'h_{zad}', 'Location','southeast');
+    else
+        legend('h2(t)', 'h_{zad}', 'Location','northeast');
     end
     xlabel('Czas (t)');
     ylabel('Wysokość h_2');
@@ -47,9 +47,9 @@ for FD_per=[10, 20, 30, 40, 50]
     subplot(2, 1, 2);
     stairs(k_vals, F1in_vals);
     if FD_sign < 0
-        legend('F1in(t)', 'Location','northeast');
-    else
         legend('F1in(t)', 'Location','southeast');
+    else
+        legend('F1in(t)', 'Location','northeast');
     end
     xlabel('Czas (t)');
     ylabel('Sygnał sterujący');

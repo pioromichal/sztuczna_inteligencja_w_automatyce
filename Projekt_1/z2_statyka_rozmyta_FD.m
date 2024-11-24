@@ -23,14 +23,14 @@ hsr3 = [];
 hsr4 = [];
 hsr5 = [];
 
-F1in_vals = 40:0.25:110;
+FD_vals = 7:0.25:21; % Zakres wartości FD do analizy
 
-% Symulacja statyczna
-for F1in = F1in_vals
-    % Parametry skoku
-    FD = FDpp;
+% Symulacja statyczna dla zakłóceń
+for FD = FD_vals
+    % Parametry symulacji
+    F1in = F1pp;
 
-    % Symulacja modeli obiektu dla skoku sterowania
+    % Symulacja modeli obiektu
     [~, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD);
     [~, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h2pp);
     [~, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm_2, 0);
@@ -65,37 +65,37 @@ error_table = {
 };
 
 % Zapis błędów do pliku CSV
-writecell(error_table, 'wykresy/Zad2/errors_por_modeli_rozm_F1in_stat.csv');
+writecell(error_table, 'wykresy/Zad2/errors_por_modeli_rozm_FD_stat.csv');
 
 % Wyświetlenie wyników dla różnych ilości modeli lokalnych
 for models_num = 2:5
     % Tworzenie nowej figury dla każdego wykresu
     figure;
-    plot(F1in_vals, hs, 'k', 'DisplayName', 'Model nieliniowy');
+    plot(FD_vals, hs, 'k', 'DisplayName', 'Model nieliniowy');
     hold on;
-    plot(F1in_vals, hsl, '-.', 'DisplayName', 'Model liniowy');
+    plot(FD_vals, hsl, '-.', 'DisplayName', 'Model liniowy');
 
     % Przypisanie odpowiednich wartości w zależności od liczby modeli
     switch models_num
         case 2
-            plot(F1in_vals, hsr2, '--', 'DisplayName', 'Model rozmyty 2');
+            plot(FD_vals, hsr2, '--', 'DisplayName', 'Model rozmyty 2');
         case 3
-            plot(F1in_vals, hsr3, '--', 'DisplayName', 'Model rozmyty 3');
+            plot(FD_vals, hsr3, '--', 'DisplayName', 'Model rozmyty 3');
         case 4
-            plot(F1in_vals, hsr4, '--', 'DisplayName', 'Model rozmyty 4');
+            plot(FD_vals, hsr4, '--', 'DisplayName', 'Model rozmyty 4');
         case 5
-            plot(F1in_vals, hsr5, '--', 'DisplayName', 'Model rozmyty 5');
+            plot(FD_vals, hsr5, '--', 'DisplayName', 'Model rozmyty 5');
     end
 
     % Ustawienie tytułów, etykiet i siatki
-    xlabel('F_{1in}');
+    xlabel('F_D');
     ylabel('Wysokość h_2');
-    title(['Wykresy dla ', num2str(models_num), ' modeli lokalnych']);
+    title(['Wykresy dla ', num2str(models_num), ' modeli lokalnych (zakłócenia)']);
     legend;
     grid on; grid minor;
 
     % Generowanie nazwy pliku
-    file_name = sprintf('wykresy/Zad2/statyka_rozmyta_%d_modeli.pdf', models_num);
+    file_name = sprintf('wykresy/Zad2/statyka_zaklocenia_rozmyta_%d_modeli.pdf', models_num);
 
     % Eksport wykresu do pliku .pdf
     exportgraphics(gcf, file_name, 'ContentType', 'vector');
