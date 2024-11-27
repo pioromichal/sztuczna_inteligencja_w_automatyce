@@ -1,5 +1,6 @@
-clear all;
+clear all; close all;
 addpath('DMC');
+addpath('funkcje_przynaleznosci');
 
 % Punkt pracy
 FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225; dF1in=10;
@@ -9,13 +10,19 @@ h2_lin = h2pp;
 tk=2500; Tp=10; kk=round(tk/Tp);
 
 % DMC parametry
-N=70; Nu=70; D=140; lambda=1;
+N=100; Nu=50; D=140; lambda=1;
 
 
-clear i j c col 
+punkty_rozmycia = h2pp*[0.5 1 1.5];
+
+ys1=odp_jedn_fun(D, Tp, -20, punkty_rozmycia(1));
+ys2=odp_jedn_fun(D, Tp, 20, punkty_rozmycia(2));
+ys3=odp_jedn_fun(D, Tp, 20, punkty_rozmycia(3));
+
+modele = {ys1,ys2,ys3};
 
 for dh2zad_sign=[-1 , 1]
-for dh2zad_per=[0, 10, 20]
+for dh2zad_per=[5, 10, 20]
     % Wartość zadana
     h2zad_val=h2pp*(1+dh2zad_sign*dh2zad_per/100);
     h2zad = @(t) h2zad_val;
@@ -35,7 +42,7 @@ for dh2zad_per=[0, 10, 20]
         % Wyznaczenie nowej wartości sterowania regulatora DMC
         hk=h_vals(end,:);
         % du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
-        du = z3_DMC_online_numeryczny(D, N, Nu, lambda, h2zad(t_k), hk(2), u_p, du_p');
+        du = z3_DMC_online_numeryczny(modele, punkty_rozmycia, D, N, Nu, lambda, h2zad(t_k), hk(2), u_p, du_p');
 
         % Ograniczenia wartości sygnału sterującego
         % if u_p+du < 0

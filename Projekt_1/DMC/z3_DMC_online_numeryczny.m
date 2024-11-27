@@ -1,8 +1,12 @@
-function delta_u = z3_DMC_online_numeryczny(D, N, Nu, ...
-    lambda, yzad, yk, ukm1, delta_u_p)
+function delta_u = z3_DMC_online_numeryczny(modele, punkty_rozmycia, D, N, Nu, lambda, yzad, yk, ukm1, delta_u_p)
 
-ys=odp_jedn_fun(D, 10, 10, yk);
-% [ke, ku] = DMC_offline(ys,N,Nu,lambda,D);
+mi = fun_przyn_trap(yk,punkty_rozmycia, 5);
+
+ys = zeros(size(D));
+for i=1:length(mi)
+    ys = ys + modele{i}*mi(i); 
+end
+
 
 M = zeros(N,Nu);
 for col=1:Nu
@@ -41,7 +45,7 @@ J = tril(ones(Nu));
 A = [-J; J; -M; M];
 b = [-Umin+Ukm1; Umax-Ukm1; -Ymin+Y0k; Ymax-Y0k];
 
-delta_U = quadprog(H,f,A,b,[],[],-5*ones(Nu,1),5*ones(Nu,1));
+delta_U = quadprog(H,f,A,b,[],[],-1*ones(Nu,1),1*ones(Nu,1));
 % delta_U = quadprog(H,f,A,b);
 
 if isempty(delta_U)
