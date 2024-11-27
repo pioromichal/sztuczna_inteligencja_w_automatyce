@@ -9,18 +9,18 @@ FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
 tk=2500; Tp=10; kk=round(tk/Tp); D = 140;
 
 % punkty_rozmycia = [5 15.6384 25];
-punkty_rozmycia = h2pp*[0.5 1 1.5];
-lambdy = [1, 1, 1];
+punkty_rozmycia = h2pp*[0.5; 0.75; 1; 1.25; 1.5];
+lambdy = [1, 1, 1, 1, 1];
 
 mi=[];
 for z=0:0.1:25
-    mi=[mi;fun_przyn_trap(z,punkty_rozmycia, 5)];
+    mi=[mi;fun_przyn_trap(z,punkty_rozmycia, 0)];
 end
 figure;
 plot(0:0.1:25, mi());
 
 
-[ke_r, ku_r] = z2_DMC_rozmyty_offline(punkty_rozmycia, lambdy, Tp);
+[ke_r, ku_r] = DMC_rozmyty_offline(punkty_rozmycia, lambdy, Tp);
 
 for dh2zad_sign=[-1 , 1]
     for dh2zad_per=[10, 20, 50]
@@ -43,7 +43,7 @@ for dh2zad_sign=[-1 , 1]
             % Wyznaczenie nowej wartości sterowania regulatora DMC
             hk=h_vals(end,:);
             % du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
-            du = z2_DMC_rozmyty_online(punkty_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p');
+            du = DMC_rozmyty_du(punkty_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p');
 
             % Ograniczenia wartości sygnału sterującego
             if u_p+du < 0

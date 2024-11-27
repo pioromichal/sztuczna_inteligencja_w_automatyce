@@ -1,8 +1,9 @@
-function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, ...
-    h2zad_val, FD)
+function [t, h_vals, F1in_vals]=DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, ...
+    h2zad_val, FD, punkty_rozmycia)
     h2zad = @(t) h2zad_val;
     % Punkt pracy
     FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
+
     % Warunki początkowe symulacji
     h_vals=[h1pp, h2pp];
     t=0;
@@ -17,7 +18,7 @@ function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, ...
 
         % Wyznaczenie nowej wartości sterowania regulatora DMC
         hk=h_vals(end,:);
-        du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
+        du = DMC_rozmyty_du(punkty_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p');
 
         % Ograniczenia wartości sygnału sterującego
         if u_p+du < 0
@@ -33,12 +34,14 @@ function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, ...
 
         if k<kk
             % Rozwiąż równania ODE
-            [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, ...
-                F1in_vals, FD_vals);
+            [tk, hk_vals] = skok_mod_nlin(tspan_k, hk, Tp, F1in_vals, FD_vals);
             % h_vals=[h_vals;hk_vals(2:end,:)];
             h_vals=[h_vals;hk_vals(end,:)];
             t=[t;tk(2:end,:)];
         end
     end
+
+
+
 
 end

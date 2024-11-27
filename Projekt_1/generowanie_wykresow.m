@@ -18,4 +18,6 @@ z1_dmc_symulacja_skok_FD; close all;
 z2_funkcje_przynaleznosci_rownomierny_podzial; close all;
 z2_por_modeli_rozm_2_3_4_5_skok_F1in; close all;
 z2_por_modeli_rozm_2_3_4_5_skok_FD; close all;
+z2_statyka_rozmyta; close all;
+z2_statyka_rozmyta_FD; close all;
 z2_dmc_rozmyty; close all;

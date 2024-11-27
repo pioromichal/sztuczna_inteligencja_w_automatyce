@@ -90,7 +90,8 @@ for models_num = 2:5
     % Ustawienie tytułów, etykiet i siatki
     xlabel('F_{1in}');
     ylabel('Wysokość h_2');
-    title(['Wykresy dla ', num2str(models_num), ' modeli lokalnych']);
+    legend('Model nieliniowy', 'Model zlinearyzowany', 'Model rozmyty', 'Location','northwest');
+    title(['Model rozmyty ', num2str(models_num), ' modelami lokalnymi']);
     legend;
     grid on; grid minor;
 

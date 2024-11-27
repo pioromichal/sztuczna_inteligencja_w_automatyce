@@ -25,7 +25,6 @@ for models_num = 2:5
                 mi_vals = [mi_vals; fun_przyn_trap(z, h2_lin_rozm_4, z_switch)];
             case 5
                 mi_vals = [mi_vals; fun_przyn_trap(z, h2_lin_rozm_5, z_switch)];
-        end
     end
     
     % Rysowanie wykresu na subplocie
