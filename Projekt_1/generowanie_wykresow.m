@@ -22,3 +22,6 @@ z2_statyka_rozmyta; close all;
 z2_statyka_rozmyta_FD; close all;
 z2_porownanie_ksztaltow_fun_przyn; close all;
 z2_dmc_rozmyty; close all;
+z2_opdpowiedzi_jednostkowe; close all;
+z2_dmc_rozmyty_symulacja_skok; close all;
+z2_dmc_rozmyty_symulacja_skok_FD; close all;

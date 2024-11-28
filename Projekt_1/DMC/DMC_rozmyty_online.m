@@ -1,5 +1,5 @@
 function [t, h_vals, F1in_vals]=DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, ...
-    h2zad_val, FD, punkty_rozmycia)
+    h2zad_val, FD, punkty_rozmycia, fun_dzwon)
     h2zad = @(t) h2zad_val;
     % Punkt pracy
     FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
@@ -18,7 +18,7 @@ function [t, h_vals, F1in_vals]=DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, ...
 
         % Wyznaczenie nowej wartości sterowania regulatora DMC
         hk=h_vals(end,:);
-        du = DMC_rozmyty_du(punkty_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p');
+        du = DMC_rozmyty_du(punkty_rozmycia, hk(2),h2zad(t_k),ke_r,ku_r,du_p',fun_dzwon);
 
         % Ograniczenia wartości sygnału sterującego
         if u_p+du < 0

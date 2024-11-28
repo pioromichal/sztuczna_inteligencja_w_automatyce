@@ -17,22 +17,27 @@ ys = odp_jedn_fun(Dj, Tp, dF1in, h2_lin);
 
 % Parametry DMC rozmytego
 punkty_rozmycia = h2pp * [0.5; 0.75; 1; 1.25; 1.5];
-D = 500;  % Parametr opóźnienia
-N_rozmyte = [40, 60, 70, 150, 250];  % Różne długości okna dla rozmytego DMC
-Nu_rozmyte = [20, 30, 30, 100, 150];  % Różne długości okna sterującego dla rozmytego DMC
-lambda_rozmyte = [15, 15, 15, 25, 25];  % Różne wartości współczynnika dla rozmytego DMC
+D = 500;
+% N_rozmyte = [40, 60, 70, 150, 250];
+% Nu_rozmyte = [20, 30, 30, 100, 150];
+N_rozmyte = [70, 70, 70, 70, 70];
+Nu_rozmyte = [30, 30, 30, 30, 30];
+lambda_rozmyte = [15, 15, 15, 15, 15]; % Regulator 1
 
 % Obliczenia offline DMC rozmytego
 [ke_r, ku_r] = DMC_rozmyty_offline(punkty_rozmycia, N_rozmyte, Nu_rozmyte, lambda_rozmyte, D, Tp);
 
-% Symulacja dla zmiany wartości zadanej \( F_D \)
+% Symulacja dla zmiany wartości zakłócenia FD
 for FD_sign = [-1, 1]
     for FD_per = [10, 20, 30, 40, 50]
-        % Wartość zadana \( F_D \)
+        % Zakłócenie FD
         FD = FDpp * (1 + FD_sign * FD_per / 100);
 
-        % Symulacja DMC rozmytego
-        [t, h_vals, F1in_vals] = DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, h2pp, FD, punkty_rozmycia);
+        % Symulacja rozmytego DMC (Regulator 1)
+        [t1, h_vals1, F1in_vals1] = DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, h2pp, FD, punkty_rozmycia, false);
+
+        % Symulacja rozmytego DMC (Regulator 2)
+        [t2, h_vals2, F1in_vals2] = DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, h2pp, FD, punkty_rozmycia, true);
 
         % Symulacja klasycznego DMC
         [tj, h_valsj, F1in_valsj] = DMC_online(kk, Tp, ke, ku, Dj, h2pp, FD);
@@ -43,34 +48,28 @@ for FD_sign = [-1, 1]
 
         % Pierwszy wykres - Sygnał wyjściowy
         subplot(2, 1, 1);
-        plot(k_vals, h_vals(:, 2)); % DMC rozmyte
+        plot(k_vals, h_vals1(:, 2), '-'); % Rozmyte DMC (Regulator 1)
         hold on;
-        plot(k_vals, h_valsj(:, 2), '--'); % Klasyczne DMC
-        plot(k_vals, h2pp * ones(1, kk), '-.');
-        if FD_sign < 0
-            legend('h2: DMC rozmyte', 'h2: DMC klasyczne', 'h_{zad}', 'Location', 'northeast');
-        else
-            legend('h2: DMC rozmyte', 'h2: DMC klasyczne', 'h_{zad}', 'Location', 'southeast');
-        end
+        plot(k_vals, h_vals2(:, 2), '--'); % Rozmyte DMC (Regulator 2)
+        plot(k_vals, h_valsj(:, 2), '-.'); % Klasyczne DMC
+        plot(k_vals, h2pp * ones(1, kk), ':'); % Wartość zadana
+        legend('h2: Rozmyte DMC (Reg. 1)', 'h2: Rozmyte DMC (Reg. 2)', 'h2: Klasyczne DMC', 'h_{zad}', 'Location', 'best');
         xlabel('Czas (t)');
         ylabel('Wysokość h_2');
         title('Sygnał wyjściowy DMC');
-        grid on; grid minor;
+        grid on;
 
         % Drugi wykres - Sygnał sterujący
         subplot(2, 1, 2);
-        stairs(k_vals, F1in_vals); % DMC rozmyte
+        stairs(k_vals, F1in_vals1, '-'); % Rozmyte DMC (Regulator 1)
         hold on;
-        stairs(k_vals, F1in_valsj, '--'); % Klasyczne DMC
-        if FD_sign < 0
-            legend('F1in: DMC rozmyte', 'F1in(t): DMC klasyczne', 'Location', 'northeast');
-        else
-            legend('F1in: DMC rozmyte', 'F1in(t): DMC klasyczne', 'Location', 'southeast');
-        end
+        stairs(k_vals, F1in_vals2, '--'); % Rozmyte DMC (Regulator 2)
+        stairs(k_vals, F1in_valsj, '-.'); % Klasyczne DMC
+        legend('F1in: Rozmyte DMC (Reg. 1)', 'F1in: Rozmyte DMC (Reg. 2)', 'F1in: Klasyczne DMC', 'Location', 'best');
         xlabel('Czas (t)');
         ylabel('Sygnał sterujący');
         title('Sygnał sterujący DMC');
-        grid on; grid minor;
+        grid on;
 
         % Zapis wykresu do pliku PDF
         file_name = sprintf('wykresy/Zad2/symulacja_DMC_r_zmiana_FD_o_%+d_procent.pdf', FD_sign * FD_per);
