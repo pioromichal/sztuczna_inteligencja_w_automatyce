@@ -10,7 +10,7 @@ h0=[h1pp h2pp];
 
 hs = [];
 
-F1in_vals= 0:1:150;
+F1in_vals= 30:0.25:110;
 
 for F1in= F1in_vals
     % Parametry skoku

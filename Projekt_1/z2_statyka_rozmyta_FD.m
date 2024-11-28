@@ -23,7 +23,7 @@ hsr3 = [];
 hsr4 = [];
 hsr5 = [];
 
-FD_vals = 7:0.25:21; % Zakres wartości FD do analizy
+FD_vals = 5:0.25:25; % Zakres wartości FD do analizy
 
 % Symulacja statyczna dla zakłóceń
 for FD = FD_vals

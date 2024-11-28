@@ -13,7 +13,7 @@ h2_lin=h2pp;
 hs = [];
 hsl = [];
 
-FD_vals= 0:0.5:30;
+FD_vals= 5:0.25:25;
 
 for FD=FD_vals
     % Parametry skoku

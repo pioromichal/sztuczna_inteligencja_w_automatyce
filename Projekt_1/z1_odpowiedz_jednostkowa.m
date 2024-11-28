@@ -10,6 +10,7 @@ dF1in=10;
 
 h0=[h1pp h2pp]; 
 h_lin = h2pp;
+punkty_rozmycia = h2pp*[0.5; 0.75; 1; 1.25; 1.5];
 
 % Symulacja pozyskująca odpowiedź skokową
 ys=odp_jedn_fun(kk, Tp, dF1in, h_lin, F1pp);

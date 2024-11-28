@@ -9,7 +9,6 @@ tk=2000;
 tspan=[0 tk];
 h0=[h1pp h2pp];
 h2_lin = h2pp;
-h2_lin_rozm=[10; h2pp; 20];
 h2_lin_rozm_2=h2pp*[1; 1.5];
 h2_lin_rozm_3=h2pp*[0.5;1;1.5];
 h2_lin_rozm_4=h2pp*[0.75;1;1.25;1.5];
@@ -29,10 +28,10 @@ for dz_sign = [-1, 1]
         % Symulacja modeli obiektu dla skoku zakłócenia
         [t_nlin, h_nlin] = skok_mod_nlin(tspan, h0, tk, F1in, FD);
         [t_lin, h_lin] = skok_mod_lin(tspan, h0, tk, F1in, FD, h2_lin);
-        [t_rozm2, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
-        [t_rozm3, h_rozm3] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
-        [t_rozm4, h_rozm4] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
-        [t_rozm5, h_rozm5] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm, h_switch);
+        [t_rozm2, h_rozm2] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm_2, h_switch);
+        [t_rozm3, h_rozm3] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm_3, h_switch);
+        [t_rozm4, h_rozm4] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm_4, h_switch);
+        [t_rozm5, h_rozm5] = skok_mod_rozm(tspan, h0, tk, F1in, FD, h2_lin_rozm_5, h_switch);
 
         % Interpolacja do czasu modelu nieliniowego (jeśli potrzeba)
         h_lin_interp = interp1(t_lin, h_lin(:, 2), t_nlin, 'linear', 'extrap');

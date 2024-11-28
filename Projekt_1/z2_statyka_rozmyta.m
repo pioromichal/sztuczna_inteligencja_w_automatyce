@@ -23,7 +23,7 @@ hsr3 = [];
 hsr4 = [];
 hsr5 = [];
 
-F1in_vals = 40:0.25:110;
+F1in_vals = 30:0.25:110;
 
 % Symulacja statyczna
 for F1in = F1in_vals
