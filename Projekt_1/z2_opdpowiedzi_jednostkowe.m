@@ -34,7 +34,7 @@ end
 legend(legend_entries, 'Location', 'southeast');
 
 
-legend('Location', 'southwest');
+legend('Location', 'best');
 xlabel('Czas (t)');
 ylabel('Wysokość');
 title('Wykres odpowiedzi jednostkowej dla poszczególnych punktów rozmycia');

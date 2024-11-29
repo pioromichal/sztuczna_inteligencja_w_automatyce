@@ -1,24 +1,36 @@
-function [t, h_vals, F1in_vals]=DMC_online(kk, Tp, ke, ku, D, ...
-    h2zad_val, FD)
+function [t, h_vals, F1in_vals]=z4_DMC_online_zakl(kk, Tp, ke, ku, kz, D, Dz, h2zad_val, FD)
     h2zad = @(t) h2zad_val;
+    kk=kk+1;
     % Punkt pracy
     FDpp=14; F1pp=73; h2pp=15.6384; h1pp = 18.9225;
     % Warunki początkowe symulacji
     h_vals=[h1pp, h2pp];
     t=0;
     du_p(1:D-1)=0;
+    delta_z_p(1:Dz)=0;
     u_p=F1pp;
     F1in_vals(1:kk) = F1pp;
-    FD_vals(1:9)=FDpp;
+    FD_vals(1:9) = FDpp;
     FD_vals(10:kk) = FD;
-    for k=1:kk
+    
+    for k=2:kk
         % Wyznaczenie czasu dla chwili k do symulacji
         t_k=k*Tp;
         tspan_k=[t_k-Tp t_k];
 
+        % Aktualizacja przeszłych przyrostów zakłócenia
+        for m=Dz-1:-1:2
+            delta_z_p(m) = delta_z_p(m-1);
+        end
+        % Zmiana zakłócenia
+        delta_z_p(1) = FD_vals(k) - FD_vals(k-1);
+
         % Wyznaczenie nowej wartości sterowania regulatora DMC
         hk=h_vals(end,:);
-        du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
+        % du=DMC_du(hk(2),h2zad(t_k),ke,ku,du_p');
+
+        e=h2zad(t_k)-hk(2);
+        du = ke*e - ku*du_p'- kz*delta_z_p';
 
         % Ograniczenia wartości sygnału sterującego
         if u_p+du < 0

@@ -10,7 +10,9 @@ function [t, h_vals, F1in_vals]=DMC_rozmyty_online(kk, Tp, ke_r, ku_r, D, ...
     du_p(1:D-1)=0;
     u_p=F1pp;
     F1in_vals(1:kk) = F1pp;
-    FD_vals(1:kk) = FD;
+    % FD_vals(1:kk) = FD;
+    FD_vals(1:9) = FDpp;
+    FD_vals(10:kk) = FD;
     for k=1:kk
         % Wyznaczenie czasu dla chwili k do symulacji
         t_k=k*Tp;
