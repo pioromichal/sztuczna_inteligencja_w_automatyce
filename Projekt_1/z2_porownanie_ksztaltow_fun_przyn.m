@@ -195,6 +195,28 @@ error_table = {
 % Zapis błędów do pliku CSV
 writecell(error_table, 'wykresy/Zad2/errors_por_fun_przyn_F1in_stat.csv');
 
+% Tworzenie nowej figury dla każdego wykresu
+figure;
+plot(F1in_vals, hs, 'DisplayName', 'Model nieliniowy');
+hold on;
+plot(F1in_vals, hsr1, '--', 'DisplayName', 'Model rozmyty 1');
+plot(F1in_vals, hsr3, '--', 'DisplayName', 'Model rozmyty 3');
+
+% Ustawienie tytułów, etykiet i siatki
+xlabel('F_{1in}');
+ylabel('Wysokość h_2');
+legend('Model nieliniowy', 'Model rozmyty 1', 'Model rozmyty 3', 'Location','northwest');
+title('Model rozmyty dla 3 funkcji przynależności');
+legend;
+grid on; grid minor;
+
+% Generowanie nazwy pliku
+file_name = sprintf('wykresy/Zad2/statyka_rozmyta_kszt_modeli.pdf');
+
+% Eksport wykresu do pliku .pdf
+exportgraphics(gcf, file_name, 'ContentType', 'vector');
+
+
 % Inicjalizacja wektorów wyników
 hs = [];
 hsr1 = [];
@@ -251,3 +273,8 @@ error_table = {
 % Zapis błędów do pliku CSV
 file_name_csv = 'wykresy/Zad2/errors_por_fun_przyn_FD_stat.csv';
 writecell(error_table, file_name_csv);
+
+
+
+
+

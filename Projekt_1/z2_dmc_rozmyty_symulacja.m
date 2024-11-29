@@ -18,11 +18,9 @@ ys=odp_jedn_fun(Dj, Tp, dF1in, h2_lin);
 
 punkty_rozmycia = h2pp*[0.5; 0.75; 1; 1.25; 1.5];
 % DMC parametry
-% N=70; Nu=30; 
-D=500;
-% N = [40, 60, 70, 150, 250];
-% Nu = [20, 30, 30, 100, 150];
-% lambda = [15, 15, 15, 25, 25];
+D1=200;
+D2=500;
+
 N1 = [70, 70, 70, 70, 70];
 Nu1 = [30, 30, 30, 30, 30];
 lambda1 = [15, 15, 15, 15, 15];
@@ -32,20 +30,20 @@ lambda2 = [15, 15, 15, 15, 15];
 
 
 % DMC obliczenia offline
-[ke_r1, ku_r1] = DMC_rozmyty_offline(punkty_rozmycia,N1,Nu1,lambda1,D, Tp);
-[ke_r2, ku_r2] = DMC_rozmyty_offline(punkty_rozmycia,N2,Nu2,lambda2,D, Tp);
+[ke_r1, ku_r1] = DMC_rozmyty_offline(punkty_rozmycia,N1,Nu1,lambda1,D1, Tp);
+[ke_r2, ku_r2] = DMC_rozmyty_offline(punkty_rozmycia,N2,Nu2,lambda2,D2, Tp);
 
-for dh2zad_sign=[1]
+for dh2zad_sign=[-1, 1]
     for dh2zad_per=[10, 20, 30, 40, 50]
         % Wartość zadana
         h2zad_val=h2pp*(1+dh2zad_sign*dh2zad_per/100);
 
         % Symulacja DMC rozmytego (1. wersja)
-        [t, h_vals, F1in_vals]=DMC_rozmyty_online(kk, Tp, ke_r1, ku_r1, D, ...
+        [t, h_vals, F1in_vals]=DMC_rozmyty_online(kk, Tp, ke_r1, ku_r1, D1, ...
             h2zad_val, FDpp, punkty_rozmycia, false);
 
         % Symulacja DMC rozmytego (2. wersja - inny parametr rozmyty)
-        [t2, h_vals2, F1in_vals2]=DMC_rozmyty_online(kk, Tp, ke_r2, ku_r2, D, ...
+        [t2, h_vals2, F1in_vals2]=DMC_rozmyty_online(kk, Tp, ke_r2, ku_r2, D2, ...
             h2zad_val, FDpp, punkty_rozmycia, true);
 
         % Symulacja klasycznego DMC
