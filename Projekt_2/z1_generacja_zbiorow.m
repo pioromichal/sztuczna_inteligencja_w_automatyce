@@ -91,3 +91,12 @@ grid on; grid minor;
 file_name = sprintf('Wykresy/z1_dane_wer.pdf');
 exportgraphics(gcf, file_name, 'ContentType', 'vector');
 % close;
+
+
+%% Zapisanie danych u_ucz i y_ucz do pliku dane.txt
+dataFilePath = fullfile('sieci', 'dane.txt'); % Ścieżka do pliku dane.txt
+dataToSave = [u_ucz(:), y_ucz(:)];          % Łączenie wektorów w macierz (kolumny)
+
+% Zapis do pliku
+save(dataFilePath, 'dataToSave', '-ascii', '-double', '-tabs');
+disp(['Dane zostały zapisane do pliku: ', dataFilePath]);

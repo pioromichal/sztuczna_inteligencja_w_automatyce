@@ -1,5 +1,13 @@
 function [x1, x2, y] = symulacja_procesu(x1km1,x2km1,ukm5)
 
+% Dodanie warunku w symulacji
+u_min=-1;
+u_max=1;
+if ukm5<u_min
+    ukm5=u_min;
+elseif ukm5>u_max
+    ukm5=u_max;
+
 alpha1 = -1.272717; alpha2 = 0.332871; 
 beta1 = 0.028400; beta2 = 0.019723;
 
