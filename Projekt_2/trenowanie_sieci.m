@@ -1,9 +1,9 @@
-function [W10, W1, W20, W2] = trenowanie_sieci(K, alg_uczacy, tryb_uczenia, liczba_prob)
+function [W10, W1, W20, W2, Farx, Foe] = trenowanie_sieci(K, alg_uczacy, tryb_uczenia, liczba_prob)
     % Definicja stałych parametrów
     tau = 5;                     % τ
     nB = 6;                      % nB
     nA = 2;                      % nA
-    max_iteracji = 50;           % maksymalna liczba iteracji uczących
+    max_iteracji = 400;           % maksymalna liczba iteracji uczących
     prog_bledu = 0.00001;        % błąd graniczny
 
     % Definicje nazw dla algorytmu i trybu uczenia
@@ -34,6 +34,9 @@ function [W10, W1, W20, W2] = trenowanie_sieci(K, alg_uczacy, tryb_uczenia, licz
     W1 = zeros([rozmiar_w1, liczba_prob]);
     W20 = zeros([rozmiar_w20, liczba_prob]);
     W2 = zeros([rozmiar_w2, liczba_prob]);
+    
+    Foe = zeros(1,max_iteracji+1,liczba_prob);
+    Farx = zeros(1,max_iteracji+1,liczba_prob);
 
     % Zapis bieżącego katalogu
     biezacy_folder = pwd;
@@ -63,6 +66,22 @@ function [W10, W1, W20, W2] = trenowanie_sieci(K, alg_uczacy, tryb_uczenia, licz
         W1(:, :, i) = w1;
         W20(:, :, i) = w20;
         W2(:, :, i) = w2;
+        
+   
+        % Wczytaj zawartość pliku jako linie
+        linieSkryptuUczenie = strsplit(fileread('uczenie.m'), newline);
+        wybraneLinie = linieSkryptuUczenie(3:end);
+        close all;
+
+        % wybraneLinie = linieSkryptuUczenie(3: ...
+        %     find(contains(linieSkryptuUczenie, 'figure'), 1)-1);
+        
+        % Połącz wybrane linie w jedną całość i uruchom kod
+        eval(strjoin(wybraneLinie, newline)); % Uruchom wybrany fragment kodu
+
+        % Zapisanie parametrów do tensorów
+        Foe(1,1:size(foe,2),i) = foe;
+        Farx(1,1:size(farx,2),i) = farx;
 
         disp(['Parametry z próby ', num2str(i), ' zostały zapisane do tensorów.']);
     end

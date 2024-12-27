@@ -1,4 +1,4 @@
-function zapisz_model_neuron_do_pliku(w10, w1, w20, w2, K, tryb_uczenia, algorytm)
+function zapisz_model_neuron_do_pliku(w10, w1, w20, w2, K, algorytm, tryb_uczenia, farx, foe)
     % w10, w1, w20, w2 - wagi modelu
     % K, tryb_uczenia, algorytm - parametry modelu, na podstawie których będzie tworzona nazwa pliku
     
@@ -20,10 +20,10 @@ function zapisz_model_neuron_do_pliku(w10, w1, w20, w2, K, tryb_uczenia, algoryt
     end
     
     % Tworzenie pełnej nazwy pliku
-    nazwa_pliku = sprintf('model_K%d_alg_%s_tryb_%s.mat', K, algorytm_str, tryb_str);
+    nazwa_pliku = fullfile('modele','sieci', sprintf('model_K%d_alg_%s_tryb_%s.mat', K, algorytm_str, tryb_str));
     
     % Zapisanie wag do pliku .mat
-    save(nazwa_pliku, 'w10', 'w1', 'w20', 'w2');
+    save(nazwa_pliku, 'w10', 'w1', 'w20', 'w2', 'farx', 'foe');
     
     % Informacja o zapisaniu modelu
     fprintf('Model zapisano do pliku: %s\n', nazwa_pliku);

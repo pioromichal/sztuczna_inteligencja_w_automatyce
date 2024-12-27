@@ -1,4 +1,5 @@
-function [w10_best, w1_best, w20_best, w2_best, E_ucz_best, E_wer_best] = wybor_sieci(W10, W1, W20, W2, tryb)
+function [w10_best, w1_best, w20_best, w2_best, E_ucz_best, E_wer_best, ...
+    farx, foe] = wybor_sieci(W10, W1, W20, W2, Farx, Foe, tryb)
     % W10, W1, W20, W2 - tensory wag dla wszystkich prób
     % tryb - tryb uczenia ('ARX' lub 'OE')
 
@@ -15,11 +16,13 @@ function [w10_best, w1_best, w20_best, w2_best, E_ucz_best, E_wer_best] = wybor_
     
     % Inicjalizacja zmiennych do przechowywania najlepszego modelu
     E_wer_best = inf; % Najmniejszy błąd weryfikacyjny (inicjalnie nieskończoność)
-    w10_best = [];
-    w1_best = [];
-    w20_best = [];
-    w2_best = [];
-    E_ucz_best = NaN;
+    % w10_best = [];
+    % w1_best = [];
+    % w20_best = [];
+    % w2_best = [];
+    % E_ucz_best = NaN;
+    
+    i_best=0;
 
     % Iteracja przez wszystkie próby
     for i = 1:liczba_prob
@@ -37,13 +40,21 @@ function [w10_best, w1_best, w20_best, w2_best, E_ucz_best, E_wer_best] = wybor_
         if E_wer < E_wer_best
             % Aktualizacja najlepszych parametrów
             E_wer_best = E_wer;
-            E_ucz_best = E_ucz;
-            w10_best = w10;
-            w1_best = w1;
-            w20_best = w20;
-            w2_best = w2;
+            i_best = i;
+            % E_ucz_best = E_ucz;
+            % w10_best = w10;
+            % w1_best = w1;
+            % w20_best = w20;
+            % w2_best = w2;
         end
     end
+    E_ucz_best = E_ucz;
+    w10_best = W10(:,:,i_best);
+    w1_best = W1(:,:,i_best);
+    w20_best = W20(:,:,i_best);
+    w2_best = W2(:,:,i_best);
+    farx = Farx(:,:,i);
+    foe = Foe(:,:,i);
 
     % Wyświetlenie informacji o najlepszym modelu
     fprintf('Najlepszy model wybrano na podstawie błędu weryfikacyjnego.\n');
