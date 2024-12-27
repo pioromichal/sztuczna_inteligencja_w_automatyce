@@ -7,6 +7,7 @@ if ukm5<u_min
     ukm5=u_min;
 elseif ukm5>u_max
     ukm5=u_max;
+end
 
 alpha1 = -1.272717; alpha2 = 0.332871; 
 beta1 = 0.028400; beta2 = 0.019723;
