@@ -1,4 +1,4 @@
-function generuj_wykresy_por_sieci(w10, w1, w20, w2, tryb, K, alg_ucz, tryb_ucz)
+function generuj_wykresy_por_sieci(tryb, K, alg_ucz, tryb_ucz)
     if alg_ucz == 1
         algorytm_str = 'najszybszy_spadek';
     elseif alg_ucz == 2
@@ -16,6 +16,25 @@ function generuj_wykresy_por_sieci(w10, w1, w20, w2, tryb, K, alg_ucz, tryb_ucz)
     elseif tryb == 2
         tryb_str = 'OE';
     end
+
+    % Wczytanie wag modelu i błędów
+    nazwa_pliku = sprintf('model_K%d_alg_%s_tryb_%s.mat', K, algorytm_str, tryb_ucz_str);
+    sciezka_pliku = fullfile('modele', 'sieci', nazwa_pliku);
+    
+    if exist(sciezka_pliku, 'file') ~= 2
+        error('Plik modelu nie istnieje: %s', sciezka_pliku);
+    end
+    
+    % Wczytanie wag i błędów z pliku
+    dane = load(sciezka_pliku);
+    w10 = dane.w10;
+    w1 = dane.w1;
+    w20 = dane.w20;
+    w2 = dane.w2;
+    farx = dane.farx;
+    foe = dane.foe;
+
+
 
     % Wczytanie danych uczących i weryfikujących
     dane_ucz = load(fullfile('dane', 'dane_ucz.mat'), 'u_ucz', 'y_ucz');
@@ -78,6 +97,18 @@ function generuj_wykresy_por_sieci(w10, w1, w20, w2, tryb, K, alg_ucz, tryb_ucz)
     ylabel('y_{mod}');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_wer_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
+    sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
+    exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
+
+    figure;
+    plot(farx); hold on; plot(foe);
+    title(sprintf(' (E_{wer} = %.5f)', E_wer));
+    legend('Obiekt', 'Model');
+    xlabel('Iteracja');
+    ylabel('Błąd');
+    set(gca, 'YScale', 'log');
+    grid on; grid minor;
+    nazwa_pliku = sprintf('sieci_f_bledu_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
     exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
 end
