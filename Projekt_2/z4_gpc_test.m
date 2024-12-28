@@ -4,19 +4,17 @@ clear; close all;
 
 N = 100;
 Nu = 100;
-lambda = 10;
+lambda = 10000;
 
 %% Odpowiedź skokowa
 w = [0.0981;-0.0929;1.9199;-0.9220]; % b5 b6 -a1 -a2
 
-du = 0.01;
-u(1) = 0; u(2:N+7) = du;
+u(1) = 0; u(2:N+7) = 1;
 ys = zeros(N+2,1);
 for k = 7:N+2
     ys(k) = [u(k-5),u(k-6),ys(k-1),ys(k-2)]*w;
 end
 ys(1:2)=[];
-ys = ys/du; % normalizacja
 
 %% Parametry regulatora i wyznaczenie macierzy sterowania
 
@@ -30,13 +28,13 @@ K = (M.'*M + lambda*eye(Nu,Nu))\M.';
 clear col du k u ys lambda Nu M
 
 %% Symulacja działania regulatora
-kk = 300;
+kk = 1000;
 umin = -1;
 umax = 1;
 
 x1km1=0;x2km1=0;
 y(1:kk)=0; u(1:kk)=0; 
-yzad(1:20)=0; yzad(21:kk)=0.5;
+yzad(1:20)=0; yzad(21:300)=0.2;yzad(301:600)=-0.1;yzad(601:kk)=-2;
 
 for k = 7:kk
     % pomiar (symulacja) y(k)
@@ -57,7 +55,7 @@ for k = 7:kk
 
     % obliczenie wektora delta_u
     Yzad = yzad(k)*ones(N,1);
-    delta_U = K*(Yzad - Y0);
+    delta_U = K*(Yzad - Y0');
     delta_u = delta_U(1);
 
     % ograniczenia
@@ -79,3 +77,6 @@ xlabel('k');ylabel('u');
 figure;hold on;
 plot(y); plot(yzad);
 xlabel('k');ylabel('y');
+
+E = (yzad - y)*(yzad-y)';
+disp(E);
