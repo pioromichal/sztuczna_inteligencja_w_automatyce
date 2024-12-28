@@ -2,19 +2,23 @@ clear; close all;
 
 %% Parametry regulatora
 
-N = 100;
+N = 50;
 Nu = 5;
-lambda = 0.1;
-load("modele\sieci\model_K9_alg_BFGS_tryb_OE.mat"); % w10, w1, w20, w2
+lambda = 15;
+load("modele\sieci\model_K7_alg_BFGS_tryb_OE.mat"); % w10, w1, w20, w2
 
 %% Symulacja działania regulatora
-kk = 1000;
+z4_trajektoria_zadana;
+
+kk = length(yzad);
 umin = -1;
 umax = 1;
 
 x1km1=0;x2km1=0;
 y(1:kk)=0; u(1:kk)=0;
-yzad(1:20)=0; yzad(21:300)=0.2;yzad(301:600)=-0.1;yzad(601:kk)=-2;
+% yzad(1:10)=0; yzad(11:100)=0.2;yzad(101:150)=-0.1;yzad(151:kk)=-2;
+
+
 
 for k = 7:kk
     % pomiar (symulacja) y(k)
@@ -24,6 +28,7 @@ for k = 7:kk
     dk = y(k) - model_neuron(u(k-5), u(k-6), y(k-1), y(k-2), w10, w1, w20, w2);
 
     % odpowiedź swobodna Y0
+    Y0 = zeros(N,1);
     Y0(1) = model_neuron(u(k-4), u(k-5), y(k), y(k-1), w10, w1, w20, w2) +dk;
     Y0(2) = model_neuron(u(k-3), u(k-4), Y0(1), y(k), w10, w1, w20, w2) +dk;
     Y0(3) = model_neuron(u(k-2), u(k-3), Y0(2), Y0(1), w10, w1, w20, w2) +dk;
@@ -49,14 +54,6 @@ for k = 7:kk
     a(1) = a1; a(2) = a2;
 
     % odpowiedź skokowa modelu
-    % us(1) = 0; us(2:N+7) = 1;
-    % ys = zeros(N+2,1);
-    % for i = 7:N+2
-    %     ys(i) = [us(i-5),us(i-6),-ys(i-1),-ys(i-2)]*wl;
-    % end
-    % ys(1:2)=[];
-
-    % odpowiedź skokowa modelu
     ys = zeros(N,1);
     for p = 3:N
         for i = 1:min([p,6])
@@ -79,7 +76,7 @@ for k = 7:kk
 
     % obliczenie wektora delta_u
     Yzad = yzad(k)*ones(N,1);
-    delta_U = K*(Yzad - Y0');
+    delta_U = K*(Yzad - Y0);
     delta_u = delta_U(1);
 
     % ograniczenia
@@ -100,7 +97,7 @@ plot(u);
 xlabel('k');ylabel('u');
 
 figure;hold on;
-plot(y); plot(yzad);
+plot(y); stairs(yzad);
 xlabel('k');ylabel('y');
 
 E = (yzad - y)*(yzad-y)';
