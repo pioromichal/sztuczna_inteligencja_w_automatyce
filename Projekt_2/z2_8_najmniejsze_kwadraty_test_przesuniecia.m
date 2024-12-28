@@ -19,6 +19,7 @@ M(:,1) = u_ucz(pp-5:pk-5); % u(k-5)
 M(:,2) = u_ucz(pp-6:pk-6); % u(k-6)
 M(:,3) = y_ucz(pp-1:pk-1); % y(k-1)
 M(:,4) = y_ucz(pp-2:pk-2); % y(k-2)
+M(:,5) = 1;
 
 w = M\y_ucz(pp:pk);
 
@@ -41,6 +42,7 @@ M(:,1) = u_wer(pp-5:pk-5); % u(k-5)
 M(:,2) = u_wer(pp-6:pk-6); % u(k-6)
 M(:,3) = y_wer(pp-1:pk-1); % y(k-1)
 M(:,4) = y_wer(pp-2:pk-2); % y(k-2)
+M(:,5) = 1;
 
 y_mod = M*w;
 
@@ -58,7 +60,7 @@ disp(['E wer ARX = ' num2str(E)]);
 y_mod = zeros(pk,1);
 y_mod(1:pp) = y_ucz(1:pp);
 for k = pp:pk
-    y_mod(k) = [u_ucz(k-5),u_ucz(k-6),y_mod(k-1),y_mod(k-2)]*w;
+    y_mod(k) = [u_ucz(k-5),u_ucz(k-6),y_mod(k-1),y_mod(k-2),1]*w;
 end
 
 E = (y_mod-y_ucz)'*(y_mod-y_ucz);
@@ -77,7 +79,7 @@ exportgraphics(gcf, 'Wykresy/z2_8_OE_ymod(yucz).pdf', 'ContentType', 'vector');
 y_mod = zeros(pk,1);
 y_mod(1:pp) = y_wer(1:pp);
 for k = pp:pk
-    y_mod(k) = [u_wer(k-5),u_wer(k-6),y_mod(k-1),y_mod(k-2)]*w;
+    y_mod(k) = [u_wer(k-5),u_wer(k-6),y_mod(k-1),y_mod(k-2),1]*w;
 end
 
 E = (y_mod-y_wer)'*(y_mod-y_wer);
@@ -91,6 +93,7 @@ figure; hold on; grid on; grid minor; xlabel('y_{wer}'); ylabel('y_{mod}');
 plot(y_wer,y_mod,'.');
 exportgraphics(gcf, 'Wykresy/z2_8_OE_ymod(ywer).pdf', 'ContentType', 'vector');
 
+
 %%
 
 kk = 200;
@@ -99,7 +102,7 @@ y(1:kk) = 0;
 for i = 1:length(us)
     u = us(i);
     for k = 8:kk
-        y(k) = [u,u,y(k-1),y(k-2)]*w;
+        y(k) = [u,u,y(k-1),y(k-2),1]*w;
     end
     ysmk(i) = y(end);
 end
