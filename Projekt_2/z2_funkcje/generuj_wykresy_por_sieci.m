@@ -57,58 +57,65 @@ function generuj_wykresy_por_sieci(tryb, K, alg_ucz, tryb_ucz)
     figure;
     plot(1:length(y_ucz), y_ucz); hold on;
     plot(1:length(y_mod_ucz), y_mod_ucz, '--');
-    legend('Obiekt', 'Model');
+    legend('Obiekt', 'Model', 'Location','southeast');
     title(sprintf('Dane uczące (E_{ucz} = %.5f)', E_ucz));
-    xlabel('Próbki');
-    ylabel('Wyjście');
+    xlabel('k');
+    ylabel('y');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_ucz_w_czasie_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
+    zamien_kropki();
     exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
 
     % Wykres dla danych weryfikujących: Obiekt vs Model
     figure;
     plot(1:length(y_wer), y_wer); hold on;
     plot(1:length(y_mod_wer), y_mod_wer, '--');
-    legend('Obiekt', 'Model');
+    legend('Obiekt', 'Model', 'Location','southeast');
     title(sprintf('Dane weryfikujące (E_{wer} = %.5f)', E_wer));
-    xlabel('Próbki');
-    ylabel('Wyjście');
+    xlabel('k');
+    ylabel('y');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_wer_w_czasie_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
+    zamien_kropki();
     exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
 
 
     figure;
     plot(y_ucz, y_mod_ucz,'.'); hold on;
-    title(sprintf(' (E_{ucz} = %.5f)', E_ucz));
+    title(sprintf('Dane uczące (E_{ucz} = %.5f)', E_ucz));
     xlabel('y_{ucz}');
     ylabel('y_{mod}');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_ucz_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
+    zamien_kropki();
     exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
 
     figure;
     plot(y_wer, y_mod_wer,'.'); hold on;
-    title(sprintf(' (E_{wer} = %.5f)', E_wer));
+    title(sprintf('Dane weryfikujące (E_{wer} = %.5f)', E_wer));
     xlabel('y_{wer}');
     ylabel('y_{mod}');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_wer_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
+    zamien_kropki();
     exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
-
+    
+    if tryb == tryb_ucz
     figure;
-    plot(farx); hold on; plot(foe);
-    title(sprintf(' (E_{wer} = %.5f)', E_wer));
-    legend('Obiekt', 'Model');
-    xlabel('Iteracja');
-    ylabel('Błąd');
-    set(gca, 'YScale', 'log');
-    grid on; grid minor;
-    nazwa_pliku = sprintf('sieci_f_bledu_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
-    sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
-    exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
+        plot(0:1:(length(farx)-1),farx); hold on; plot(0:1:(length(foe)-1),foe);
+        title(sprintf('Wykres błędów predyktora podczas uczenia sieci'));
+        legend('E_{ARX}', 'E_{OE}');
+        xlabel('Iteracja');
+        ylabel('E_{ARX}, E_{OE}');
+        set(gca, 'YScale', 'log');
+        grid on; grid minor;
+        nazwa_pliku = sprintf('sieci_f_bledu_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
+        sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
+        zamien_kropki();
+        exportgraphics(gcf, sciezka_pliku , 'ContentType', 'vector');
+    end
 end

@@ -61,7 +61,6 @@ function [E_ucz, E_wer] = oblicz_bledy_modeli_neuron(alg_uczacy, tryb_uczenia, l
     end
 
     % Wyświetlenie wyników
-    fprintf('Błędy dla modeli:\n');
     fprintf('K\tBłąd uczący\tBłąd weryfikacyjny\n');
     for K = 1:liczba_prob
         fprintf('%d\t%.5f\t\t%.5f\n', K, E_ucz(K), E_wer(K));
