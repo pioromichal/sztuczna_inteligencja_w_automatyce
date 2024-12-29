@@ -1,22 +1,33 @@
 clear; close all;
 
-%% Parametry regulatora
+%% Parametry regulatora i modelu
 
 N = 100;
-Nu = 100;
-lambda = 10000;
+Nu = 1;
+lambda = 12000;
+
+b(5) = 0.0981;
+b(6) = -0.0929;
+a(1) = -1.9199;
+a(2) = 0.9220;
+
+% do wygodnego wykorzystania w równaniu różnicowym
+w = [b(5);b(6);-a(1);-a(2)];
 
 %% Odpowiedź skokowa
-w = [0.0981;-0.0929;1.9199;-0.9220]; % b5 b6 -a1 -a2
 
-u(1) = 0; u(2:N+7) = 1;
-ys = zeros(N+2,1);
-for k = 7:N+2
-    ys(k) = [u(k-5),u(k-6),ys(k-1),ys(k-2)]*w;
+ys = zeros(N,1);
+for p = 3:N
+    for i = 1:min([p,6])
+        ys(p) = ys(p)+b(i);
+    end
+
+    for i = 1:min([p,2])
+        ys(p) = ys(p)-a(i)*ys(p-i);
+    end
 end
-ys(1:2)=[];
 
-%% Parametry regulatora i wyznaczenie macierzy sterowania
+%% Wyznaczenie macierzy sterowania
 
 M = zeros(N,Nu);
 for col=1:Nu
@@ -25,16 +36,17 @@ end
 
 K = (M.'*M + lambda*eye(Nu,Nu))\M.';
 
-clear col du k u ys lambda Nu M
+clear a b i p col du k ys lambda Nu M
 
 %% Symulacja działania regulatora
-kk = 1000;
+z4_trajektoria_zadana;
+
+kk = length(yzad);
 umin = -1;
 umax = 1;
 
 x1km1=0;x2km1=0;
 y(1:kk)=0; u(1:kk)=0; 
-yzad(1:20)=0; yzad(21:300)=0.2;yzad(301:600)=-0.1;yzad(601:kk)=-2;
 
 for k = 7:kk
     % pomiar (symulacja) y(k)
