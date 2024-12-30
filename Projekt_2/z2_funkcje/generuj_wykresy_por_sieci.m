@@ -85,8 +85,8 @@ function generuj_wykresy_por_sieci(tryb, K, alg_ucz, tryb_ucz)
     figure;
     plot(y_ucz, y_mod_ucz,'.'); hold on;
     title(sprintf('Dane uczące (E_{ucz} = %.5f)', E_ucz));
-    xlabel('y_{ucz}');
-    ylabel('y_{mod}');
+    xlabel('y_{obiekt}');
+    ylabel('y_{model}');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_ucz_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
@@ -96,8 +96,8 @@ function generuj_wykresy_por_sieci(tryb, K, alg_ucz, tryb_ucz)
     figure;
     plot(y_wer, y_mod_wer,'.'); hold on;
     title(sprintf('Dane weryfikujące (E_{wer} = %.5f)', E_wer));
-    xlabel('y_{wer}');
-    ylabel('y_{mod}');
+    xlabel('y_{obiekt}');
+    ylabel('y_{model}');
     grid on; grid minor;
     nazwa_pliku = sprintf('sieci_dane_wer_tryb_sym_%s_K%d_alg_%s_tryb_u_%s.pdf', tryb_str, K, algorytm_str, tryb_ucz_str);
     sciezka_pliku = fullfile('Wykresy','sieci',nazwa_pliku);
