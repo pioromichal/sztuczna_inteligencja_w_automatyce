@@ -5,6 +5,12 @@ clear; close all;
 N = 50;
 Nu = 5;
 lambda = 15;
+
+N_vals = [50,40,30];
+Nu_vals = [5];
+lambda_vals = [15];
+
+
 load("modele\sieci\model_K7_alg_BFGS_tryb_OE.mat"); % w10, w1, w20, w2
 
 %% Symulacja działania regulatora
@@ -13,6 +19,13 @@ z4_trajektoria_zadana;
 kk = length(yzad);
 umin = -1;
 umax = 1;
+
+h1 = figure; hold on; xlabel('k');ylabel('u'); grid on; grid minor;
+h2 = figure; hold on; xlabel('k');ylabel('y'); grid on; grid minor;
+
+for N = N_vals
+Nu = N;
+
 
 x1km1=0;x2km1=0;
 y(1:kk)=0; u(1:kk)=0;
@@ -90,13 +103,15 @@ for k = 7:kk
 end
 
 
-figure;
-plot(u);
-xlabel('k');ylabel('u');
+figure(h1);
+plot(u, DisplayName=['N=' num2str(N)]);
 
-figure;hold on;
-plot(y); stairs(yzad);
-xlabel('k');ylabel('y');
+figure(h2);
+plot(y, DisplayName=['N=' num2str(N)]);
 
 E = (yzad - y)*(yzad-y)';
-disp(E);
+disp(['Dla N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) ': E=' num2str(E)]);
+
+end
+
+figure(h2); stairs(yzad, '--', DisplayName='yzad'); legend show; legend Location south ;

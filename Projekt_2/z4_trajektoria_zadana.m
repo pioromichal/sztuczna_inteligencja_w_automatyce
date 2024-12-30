@@ -19,7 +19,7 @@ for i = 1:size(yzad_pairs, 1)
 end
 
 
-figure; hold on; grid on; grid minor;
-stairs(yzad); 
-xlabel('Czas [s]'); ylabel('y');
-exportgraphics(gcf, 'Wykresy/z4_yzad.pdf', 'ContentType', 'vector');
+% figure; hold on; grid on; grid minor;
+% stairs(yzad); 
+% xlabel('Czas [s]'); ylabel('y');
+% exportgraphics(gcf, 'Wykresy/z4_yzad.pdf', 'ContentType', 'vector');
