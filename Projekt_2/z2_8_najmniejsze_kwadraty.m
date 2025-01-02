@@ -65,11 +65,13 @@ E = (y_mod-y_ucz)'*(y_mod-y_ucz);
 disp(['E ucz OE = ' num2str(E)]);
 
 figure; hold on; grid on; grid minor; xlabel('k'); ylabel('y');
-plot(1:pk,y_ucz,'.'); plot(1:pk,y_mod,'.'); legend('y_{ucz}','y_{mod}', Location='best');
+plot(1:pk,y_ucz); plot(1:pk,y_mod,'--'); legend('y_{ucz}','y_{mod}', Location='best');
+title(['Dane uczące (Eucz = ' num2str(E) ')']);
 exportgraphics(gcf, 'Wykresy/z2_8_OE_sym_ucz.pdf', 'ContentType', 'vector');
 
 figure; hold on; grid on; grid minor; xlabel('y_{ucz}'); ylabel('y_{mod}');
 plot(y_ucz,y_mod,'.');
+title(['Dane uczące (Eucz = ' num2str(E) ')']);
 exportgraphics(gcf, 'Wykresy/z2_8_OE_ymod(yucz).pdf', 'ContentType', 'vector');
 
 %% OE dla danych weryfikujących
@@ -84,11 +86,13 @@ E = (y_mod-y_wer)'*(y_mod-y_wer);
 disp(['E wer OE = ' num2str(E)]);
 
 figure; hold on; grid on; grid minor; xlabel('k'); ylabel('y');
-plot(1:pk,y_wer,'.'); plot(1:pk,y_mod,'.'); legend('y_{wer}','y_{mod}', Location='best');
+plot(1:pk,y_wer); plot(1:pk,y_mod,'--'); legend('y_{wer}','y_{mod}', Location='best');
+title(['Dane weryfikujące (Ewer = ' num2str(E) ')']);
 exportgraphics(gcf, 'Wykresy/z2_8_OE_sym_wer.pdf', 'ContentType', 'vector');
 
 figure; hold on; grid on; grid minor; xlabel('y_{wer}'); ylabel('y_{mod}');
 plot(y_wer,y_mod,'.');
+title(['Dane weryfikujące (Ewer = ' num2str(E) ')']);
 exportgraphics(gcf, 'Wykresy/z2_8_OE_ymod(ywer).pdf', 'ContentType', 'vector');
 
 %%

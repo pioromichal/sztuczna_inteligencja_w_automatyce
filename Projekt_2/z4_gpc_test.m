@@ -2,9 +2,9 @@ clear; close all;
 
 %% Parametry regulatora i modelu
 
-N = 100;
-Nu = 1;
-lambda = 12000;
+N = 40;
+Nu = 5;
+lambda = 9;
 
 b(5) = 0.0981;
 b(6) = -0.0929;
@@ -34,7 +34,7 @@ for col=1:Nu
     M(col:N,col) = ys(1:N-col+1);
 end
 
-K = (M.'*M + lambda*eye(Nu,Nu))\M.';
+K = (M'*M + lambda*eye(Nu,Nu))\M';
 
 clear a b i p col du k ys lambda Nu M
 
@@ -47,6 +47,7 @@ umax = 1;
 
 x1km1=0;x2km1=0;
 y(1:kk)=0; u(1:kk)=0; 
+Y0 = zeros(N,1);
 
 for k = 7:kk
     % pomiar (symulacja) y(k)
@@ -67,7 +68,7 @@ for k = 7:kk
 
     % obliczenie wektora delta_u
     Yzad = yzad(k)*ones(N,1);
-    delta_U = K*(Yzad - Y0');
+    delta_U = K*(Yzad - Y0);
     delta_u = delta_U(1);
 
     % ograniczenia
