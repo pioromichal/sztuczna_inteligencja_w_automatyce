@@ -1,4 +1,14 @@
-function [y,u] = z4_gpc_funkcja(N,Nu,lambda,b,a,w, yzad)
+function [y,u] = z4_gpc_funkcja(N,Nu,lambda, yzad)
+%% Parametry modelu
+
+b(5) = 0.0981;
+b(6) = -0.0929;
+a(1) = -1.9199;
+a(2) = 0.9220;
+
+% do wygodnego wykorzystania w równaniu różnicowym
+w = [b(5);b(6);-a(1);-a(2)];
+
 %% Odpowiedź skokowa
 
 ys = zeros(N,1);
