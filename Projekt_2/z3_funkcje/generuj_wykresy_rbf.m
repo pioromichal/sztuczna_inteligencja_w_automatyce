@@ -37,7 +37,7 @@ function generuj_wykresy_rbf(model, tryb)
     figure;
     plot(y_ucz, y_mod_ucz, '.');
     title(sprintf('Porównanie danych uczących (E = %.5f)', E_ucz));
-    xlabel('y_{obiekt}');
+    xlabel('y_{ucz}');
     ylabel('y_{model}');
     grid on; grid minor;
     nazwa_pliku = fullfile(folder_wykresy, sprintf('z3_dane_ucz_porownanie_tryb_%s.pdf', tryb));
@@ -60,7 +60,7 @@ function generuj_wykresy_rbf(model, tryb)
     figure;
     plot(y_wer, y_mod_wer, '.');
     title(sprintf('Porównanie danych weryfikujących (E = %.5f)', E_wer));
-    xlabel('y_{obiekt}');
+    xlabel('y_{wer}');
     ylabel('y_{model}');
     grid on;
     nazwa_pliku = fullfile(folder_wykresy, sprintf('z3_rbf_dane_wer_porownanie_tryb_%s.pdf', tryb));
