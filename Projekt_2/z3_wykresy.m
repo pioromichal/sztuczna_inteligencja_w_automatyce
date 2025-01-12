@@ -1,11 +1,12 @@
 clear;
 
 % Wczytanie danych uczących i weryfikujących
-load dane\dane_ucz;
-load dane\dane_wer;
+load(fullfile('dane', 'dane_ucz.mat'));
+load(fullfile('dane', 'dane_wer.mat'));
 
 % Wczytanie modelu
-model = load('modele/model_rbf.mat', 'sn').sn;
+model_path = fullfile('modele', 'rbf','model_rbf_err_0.0001000_n_29.mat');
+model = load(model_path, 'sn').sn;
 
 % Generowanie i rysowanie wyników dla danych uczących
 generuj_wykresy_rbf(model, 'ARX');
