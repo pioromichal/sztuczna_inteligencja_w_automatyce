@@ -12,12 +12,12 @@ w = [b(5);b(6);-a(1);-a(2)];
 %% Odpowiedź skokowa
 
 ys = zeros(N,1);
-for p = 3:N
+for p = 2:N
     for i = 1:min([p,6])
         ys(p) = ys(p)+b(i);
     end
 
-    for i = 1:min([p,2])
+    for i = 1:min([p-1,2])
         ys(p) = ys(p)-a(i)*ys(p-i);
     end
 end

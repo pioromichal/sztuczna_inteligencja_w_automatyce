@@ -4,7 +4,7 @@ clear; close all;
 
 N = 40;
 Nu = 5;
-lambda = 9;
+lambda = 3000; % 9 3000
 
 % model do GPC
 
@@ -18,13 +18,19 @@ z4_trajektoria_zadana;
 
 
 %% Wykresy
+colors = lines(3);
 figure;hold on; grid on; grid minor;
-plot(u_NPL);plot(u_GPC);
+plot(u_NPL,LineWidth=1);plot(u_GPC, LineWidth=0.01);
 xlabel('k');ylabel('u');
+legend('NPL', 'GPC', Location='best');
+exportgraphics(gcf, 'Wykresy/z4_npl_gpc_por_u.pdf', 'ContentType', 'vector');
+
 
 figure;hold on;grid on; grid minor;
-plot(y_NPL); plot(y_GPC);stairs(yzad);
+stairs(yzad,'--',LineWidth=1, Color=colors(3,:)); plot(y_NPL,LineWidth=1, Color=colors(1,:)); plot(y_GPC, Color=colors(2,:));
 xlabel('k');ylabel('y');
+legend('y_{zad}', 'NPL', 'GPC', Location='south');
+exportgraphics(gcf, 'Wykresy/z4_npl_gpc_por_y.pdf', 'ContentType', 'vector');
 
 E = (yzad - y_NPL)*(yzad-y_NPL)';
 disp(E);
