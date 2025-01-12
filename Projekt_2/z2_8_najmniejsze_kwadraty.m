@@ -95,18 +95,3 @@ plot(y_wer,y_mod,'.');
 title(['Dane weryfikujące (Ewer = ' num2str(E) ')']);
 exportgraphics(gcf, 'Wykresy/z2_8_OE_ymod(ywer).pdf', 'ContentType', 'vector');
 
-%%
-
-kk = 200;
-us = -1:0.01:1;
-y(1:kk) = 0;
-for i = 1:length(us)
-    u = us(i);
-    for k = 8:kk
-        y(k) = [u,u,y(k-1),y(k-2)]*w;
-    end
-    ysmk(i) = y(end);
-end
-
-figure; hold on;
-plot(us, ysmk, LineWidth=1);

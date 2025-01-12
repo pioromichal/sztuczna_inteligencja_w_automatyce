@@ -50,7 +50,7 @@ for k = 7:kk
             ys(p) = ys(p)+b(i);
         end
 
-        for i = 1:min([p,2])
+        for i = 1:min([p-1,2])
             ys(p) = ys(p)-a(i)*ys(p-i);
         end
     end
