@@ -3,7 +3,7 @@ function [W10, W1, W20, W2, Farx, Foe] = trenowanie_sieci(K, alg_uczacy, tryb_uc
     tau = 5;                     % τ
     nB = 6;                      % nB
     nA = 2;                      % nA
-    max_iteracji = 100;           % maksymalna liczba iteracji uczących
+    max_iteracji = 400;           % maksymalna liczba iteracji uczących
     prog_bledu = 0.00001;        % błąd graniczny
 
     % Definicje nazw dla algorytmu i trybu uczenia
